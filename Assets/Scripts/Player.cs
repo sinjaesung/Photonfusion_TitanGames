@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour
     public float DoubleJumpCDFactor => (DoubleJumpCD.RemainingTime(Runner) ?? 0f) / doubleJumpCD;
     public double Score => Math.Round(transform.position.y, 1);
     public bool IsReady; // Server is the only one who cares about this
+    public bool IsArrive;
     private bool CanGlide => !kcc.Data.IsGrounded && GlideCharge > 0f;
 
     [Networked] public string Name { get; private set; }

@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI gameStateText;
     [SerializeField] private TextMeshProUGUI instructionText;
+    [SerializeField] private TextMeshProUGUI completeText;
     [SerializeField] private Slider grappleCD;
     [SerializeField] private Slider glideCD;
     [SerializeField] private Image glideActive;
@@ -34,6 +35,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private LeaderboardItem[] leaderboardItems;
 
     public Player LocalPlayer;
+    public GameEndTest gameEndTest;
 
     private void Awake()
     {
@@ -46,6 +48,8 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        gameEndTest = FindObjectOfType<GameEndTest>();
+
         if (LocalPlayer == null)
             return;
 
@@ -69,6 +73,7 @@ public class UIManager : MonoBehaviour
 
     public void SetWaitUI(GameState newState, Player winner)
     {
+        Debug.Log("UIManager SetGameState newState>" + newState);
         if (newState == GameState.Waiting)
         {
             if (winner == null)
@@ -81,10 +86,16 @@ public class UIManager : MonoBehaviour
                 gameStateText.text = $"{winner.Name} Wins";
                 instructionText.text = "Press R when you're ready to play again!";
             }
+        }else if (newState == GameState.Completed)
+        {
+            completeText.text = "Completed!";
+
+            gameEndTest.EndingAction();
         }
 
         gameStateText.enabled = newState == GameState.Waiting;
         instructionText.enabled = newState == GameState.Waiting;
+        completeText.enabled = newState == GameState.Completed;
     }
 
     public void UpdateLeaderboard(KeyValuePair<Fusion.PlayerRef, Player>[] players)

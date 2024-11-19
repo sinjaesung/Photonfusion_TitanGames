@@ -8,6 +8,7 @@ public enum GameState
 {
     Waiting,
     Playing,
+    Completed,
 }
 
 public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
@@ -78,9 +79,10 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         // Detect when a player enters the finish platform's trigger collider
         if (Runner.IsServer && Winner == null && other.attachedRigidbody != null && other.attachedRigidbody.TryGetComponent(out Player player))
         {
-            UnreadyAll();
-            Winner = player;
-            State = GameState.Waiting;
+            //UnreadyAll();
+            //Winner = player;
+            //State = GameState.Waiting;
+            player.IsArrive = true;
         }
     }
 
@@ -109,6 +111,13 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
             }
         }
 
+        if (IsAllArrived())
+        {
+            Debug.Log("GameLogic 모든 플레이어 다 도착점 완료한 경우>>");
+            UnreadyAll();
+            State = GameState.Completed;
+        }
+
         if (State == GameState.Playing && !Runner.IsResimulation)
             UIManager.Singleton.UpdateLeaderboard(Players.OrderByDescending(p => p.Value.Score).ToArray());
     }
@@ -134,6 +143,21 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
     {
         foreach (KeyValuePair<PlayerRef, Player> player in Players)
             player.Value.IsReady = false;
+    }
+    private void UnArriveAll()
+    {
+        foreach (KeyValuePair<PlayerRef, Player> player in Players)
+            player.Value.IsArrive = false;
+    }
+    private bool IsAllArrived()
+    {
+        bool allArrived = true;
+        foreach (KeyValuePair<PlayerRef, Player> player in Players)
+        {
+            if (!player.Value.IsArrive)
+                allArrived = false;
+        }
+        return allArrived;
     }
 
     private void GetNextSpawnpoint(float spacingAngle, out Vector3 position, out Quaternion rotation)
