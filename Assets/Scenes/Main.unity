@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &123064408
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3473,6 +3473,7 @@ MonoBehaviour:
   - nameText: {fileID: 551787797}
     heightText: {fileID: 551787796}
   LocalPlayer: {fileID: 0}
+  gameEndTest: {fileID: 0}
 --- !u!1 &1968189577
 GameObject:
   m_ObjectHideFlags: 0

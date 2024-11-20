@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour
     public float DoubleJumpCDFactor => (DoubleJumpCD.RemainingTime(Runner) ?? 0f) / doubleJumpCD;
     public double Score => Math.Round(transform.position.y, 1);
     public bool IsReady; // Server is the only one who cares about this
+    public bool IsStartRequest;
     public bool IsArrive;
     private bool CanGlide => !kcc.Data.IsGrounded && GlideCharge > 0f;
 
@@ -204,6 +205,12 @@ public class Player : NetworkBehaviour
         IsReady = true;
         if (HasInputAuthority)
             UIManager.Singleton.DidSetReady();
+    }
+    [Rpc(RpcSources.InputAuthority,RpcTargets.InputAuthority | RpcTargets.StateAuthority)]
+    public void RPC_SetStart()
+    {
+        Debug.Log("QÅ° ¿äÃ»>>");
+        IsStartRequest = true;
     }
 
     public void Teleport(Vector3 position, Quaternion rotation)

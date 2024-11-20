@@ -7,6 +7,7 @@ using UnityEngine.TextCore.Text;
 public enum GameState
 {
     Waiting,
+    MediaPlaying,
     Playing,
     Completed,
 }
@@ -26,7 +27,6 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
     public PlayerSpawner CharacterSpawner;
 
     public bool isSpawned = false;
-
     void Start()
     {
         CharacterSpawner = FindObjectOfType<PlayerSpawner>();
@@ -106,11 +106,17 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
             if (areAllReady)
             {
                 Winner = null;
-                State = GameState.Playing;
-                PreparePlayers();
+                State = GameState.MediaPlaying;
+                //Waiting->MediaPlaying
+               //PreparePlayers();
             }
         }
 
+        if (IsAllStartRequested())
+        {
+            Debug.Log("GameLogic 모든 플레이어 시작영상 재생완료한 경우 q키>>");
+            State = GameState.Playing;
+        }
         if (IsAllArrived())
         {
             Debug.Log("GameLogic 모든 플레이어 다 도착점 완료한 경우>>");
@@ -148,6 +154,16 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
     {
         foreach (KeyValuePair<PlayerRef, Player> player in Players)
             player.Value.IsArrive = false;
+    }
+    private bool IsAllStartRequested()
+    {
+        bool allRequested = true;
+        foreach(KeyValuePair<PlayerRef,Player> player in Players)
+        {
+            if (!player.Value.IsStartRequest)
+                allRequested = false;
+        }
+        return allRequested;
     }
     private bool IsAllArrived()
     {

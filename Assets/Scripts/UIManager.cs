@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 
     public Player LocalPlayer;
     public GameEndTest gameEndTest;
-
+    public StartVideoTest startmediaTest;
     private void Awake()
     {
         Singleton = this;
@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         gameEndTest = FindObjectOfType<GameEndTest>();
+        startmediaTest = FindObjectOfType<StartVideoTest>();
 
         if (LocalPlayer == null)
             return;
@@ -86,7 +87,14 @@ public class UIManager : MonoBehaviour
                 gameStateText.text = $"{winner.Name} Wins";
                 instructionText.text = "Press R when you're ready to play again!";
             }
-        }else if (newState == GameState.Completed)
+        }else if(newState == GameState.MediaPlaying)
+        {
+            startmediaTest.StartMediaVideo();
+        }else if(newState == GameState.Playing)
+        {
+            startmediaTest.StopMediaVideo();
+        }
+        else if (newState == GameState.Completed)
         {
             completeText.text = "Completed!";
 
