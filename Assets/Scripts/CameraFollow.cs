@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour
     private static CameraFollow _singleton;
 
     private Transform target;
+    public Vector3 followOffset;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class CameraFollow : MonoBehaviour
     private void LateUpdate()
     {
         if (target != null)
-            transform.SetPositionAndRotation(target.position, target.rotation);
+            transform.SetPositionAndRotation(target.position+ followOffset, target.rotation);
     }
 
     public void SetTarget(Transform newTarget)

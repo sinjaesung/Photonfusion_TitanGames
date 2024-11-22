@@ -8,7 +8,7 @@ public class GameUI : MonoBehaviour
 {
     public interface IGameUIComponent
     {
-        void Init(Player entity);
+        void Init(PlayerEntity entity);
     }
 
     public CanvasGroup fader;
@@ -31,10 +31,14 @@ public class GameUI : MonoBehaviour
     public Button continueEndButton;
     //private bool _startedCountdown;
 
-    public Player playerEntity { get; private set; }
+    public PlayerEntity playerEntity { get; private set; }
     //private KartController KartController => Kart.Controller;
 
-    public void Init(Player player_)
+    private void Start()
+    {
+        FadeIn();
+    }
+    public void Init(PlayerEntity player_)
     {
         playerEntity = player_;
 
@@ -43,41 +47,41 @@ public class GameUI : MonoBehaviour
 
         //kart.LapController.OnLapChanged += SetLapCount;
 
-       /* var track = Track.Current;
+        /* var track = Track.Current;
 
-        if (track == null)
-            Debug.LogWarning($"You need to initialize the GameUI on a track for track-specific values to be updated!");
-        else
-        {
-            introGameModeText.text = GameManager.Instance.GameType.modeName;
-            introTrackNameText.text = track.definition.trackName;*/
-        }
+         if (track == null)
+             Debug.LogWarning($"You need to initialize the GameUI on a track for track-specific values to be updated!");
+         else
+         {
+             introGameModeText.text = GameManager.Instance.GameType.modeName;
+             introTrackNameText.text = track.definition.trackName;
+         }*/
 
-       /* GameType gameType = GameManager.Instance.GameType;
+        /* GameType gameType = GameManager.Instance.GameType;
 
-        if (gameType.IsPracticeMode())
-        {
-            timesContainer.SetActive(false);
-            lapCountContainer.SetActive(false);
-        }*/
+         if (gameType.IsPracticeMode())
+         {
+             timesContainer.SetActive(false);
+             lapCountContainer.SetActive(false);
+         }*/
 
-      /*  if (gameType.hasPickups == false)
-        {
-            pickupContainer.SetActive(false);
-        }
-        else
-        {*/
-            ClearPickupDisplay();
+        /*  if (gameType.hasPickups == false)
+          {
+              pickupContainer.SetActive(false);
+          }
+          else
+          {*/
+        ClearPickupDisplay();
         //}
 
-       /* if (gameType.hasCoins == false)
-        {
-            coinCountContainer.SetActive(false);
-        }*/
+        /* if (gameType.hasCoins == false)
+         {
+             coinCountContainer.SetActive(false);
+         }*/
 
         //continueEndButton.gameObject.SetActive(kart.Object.HasStateAuthority);
 
-        player.OnHeldItemChanged += index =>
+        player_.OnHeldItemChanged += index =>
         {
             if (index == -1)
             {
@@ -89,7 +93,7 @@ public class GameUI : MonoBehaviour
             }
         };
 
-        kart.OnCoinCountChanged += count =>
+        player_.OnCoinCountChanged += count =>
         {
             AudioManager.Play("coinSFX", AudioManager.MixerTarget.SFX);
             coinCount.text = $"{count:00}";
@@ -98,7 +102,7 @@ public class GameUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        Kart.LapController.OnLapChanged -= SetLapCount;
+        //Kart.LapController.OnLapChanged -= SetLapCount;
     }
 
     public void FinishCountdown()
@@ -129,10 +133,10 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-        if (!Kart || !Kart.LapController.Object || !Kart.LapController.Object.IsValid)
-            return;
+        /*if (!Kart || !Kart.LapController.Object || !Kart.LapController.Object.IsValid)
+            return;*/
 
-        if (!_startedCountdown && Track.Current != null && Track.Current.StartRaceTimer.IsRunning)
+       /* if (!_startedCountdown && Track.Current != null && Track.Current.StartRaceTimer.IsRunning)
         {
             var remainingTime = Track.Current.StartRaceTimer.RemainingTime(Kart.Runner);
             if (remainingTime != null && remainingTime <= 3.0f)
@@ -142,13 +146,13 @@ public class GameUI : MonoBehaviour
                 FadeIn();
                 countdownAnimator.SetTrigger("StartCountdown");
             }
-        }
+        }*/
 
         UpdateBoostBar();
 
-        if (Kart.LapController.enabled) UpdateLapTimes();
+        //if (Kart.LapController.enabled) UpdateLapTimes();
 
-        var controller = Kart.Controller;
+        var controller = playerEntity.Controller;
         if (controller.BoostTime > 0f)
         {
             if (controller.BoostTierIndex == -1) return;
@@ -168,17 +172,17 @@ public class GameUI : MonoBehaviour
 
     private void UpdateBoostBar()
     {
-        if (!KartController.Object || !KartController.Object.IsValid)
+        if (!playerEntity.Object || !playerEntity.Object.IsValid)
             return;
 
-        var driftIndex = KartController.DriftTierIndex;
-        var boostIndex = KartController.BoostTierIndex;
+        var driftIndex = playerEntity.Controller.DriftTierIndex;
+        var boostIndex = playerEntity.Controller.BoostTierIndex;
 
-        if (KartController.IsDrifting)
+        if (playerEntity.Controller.IsDrifting)
         {
-            if (driftIndex < KartController.driftTiers.Length - 1)
-                SetBoostBar((KartController.DriftTime - KartController.driftTiers[driftIndex].startTime) /
-                            (KartController.driftTiers[driftIndex + 1].startTime - KartController.driftTiers[driftIndex].startTime));
+            if (driftIndex < playerEntity.Controller.driftTiers.Length - 1)
+                SetBoostBar((playerEntity.Controller.DriftTime - playerEntity.Controller.driftTiers[driftIndex].startTime) /
+                            (playerEntity.Controller.driftTiers[driftIndex + 1].startTime - playerEntity.Controller.driftTiers[driftIndex].startTime));
             else
                 SetBoostBar(1);
         }
@@ -186,11 +190,11 @@ public class GameUI : MonoBehaviour
         {
             SetBoostBar(boostIndex == -1
                 ? 0f
-                : KartController.BoostTime / KartController.driftTiers[boostIndex].boostDuration);
+                : playerEntity.Controller.BoostTime / playerEntity.Controller.driftTiers[boostIndex].boostDuration);
         }
     }
 
-    private void UpdateLapTimes()
+   /* private void UpdateLapTimes()
     {
         if (!Kart.LapController.Object || !Kart.LapController.Object.IsValid)
             return;
@@ -217,7 +221,7 @@ public class GameUI : MonoBehaviour
         }
 
         SetRaceTimeText(Kart.LapController.GetTotalRaceTime());
-    }
+    }*/
 
     public void SetBoostBar(float amount)
     {
@@ -234,7 +238,7 @@ public class GameUI : MonoBehaviour
         coinCount.text = $"{count:00}";
     }
 
-    private void SetLapCount(int lap, int maxLaps)
+  /*  private void SetLapCount(int lap, int maxLaps)
     {
         var text = $"{(lap > maxLaps ? maxLaps : lap)}/{maxLaps}";
         lapCount.text = text;
@@ -248,7 +252,7 @@ public class GameUI : MonoBehaviour
     public void SetLapTimeText(float time, int index)
     {
         lapTimeTexts[index].text = $"<color=#FFC600>L{index + 1}</color> {(int)(time / 60):00}:{time % 60:00.000}";
-    }
+    }*/
 
     public void StartSpinItem()
     {
@@ -270,7 +274,7 @@ public class GameUI : MonoBehaviour
         }
 
         itemAnimator.SetBool("Ticking", false);
-        SetPickupDisplay(Kart.HeldItem);
+        SetPickupDisplay(playerEntity.HeldItem);
         // Kart.canUseItem = true;
     }
 
@@ -287,7 +291,7 @@ public class GameUI : MonoBehaviour
         SetPickupDisplay(ResourceManager.Instance.noPowerup);
     }
 
-    public void ShowEndRaceScreen()
+  /*  public void ShowEndRaceScreen()
     {
         endRaceScreen.gameObject.SetActive(true);
     }
@@ -297,5 +301,5 @@ public class GameUI : MonoBehaviour
     public void OpenPauseMenu()
     {
         InterfaceManager.Instance.OpenPauseMenu();
-    }
+    }*/
 }
