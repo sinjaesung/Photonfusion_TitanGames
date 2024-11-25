@@ -9,7 +9,6 @@ using UnityEngine.Windows;
 
 public class Player : PlayerComponent
 {
-    [SerializeField] private SkinnedMeshRenderer[] modelParts;
     [SerializeField] private KCC kcc;
     [SerializeField] private KCCProcessor glideProcessor;
     [SerializeField] private Transform camTarget;
@@ -60,73 +59,73 @@ public class Player : PlayerComponent
     public float acceleration;
     public float deceleration;
 
-    [Tooltip("X-Axis: steering\nY-Axis: velocity\nCoordinate space is normalized")]
-    public AnimationCurve steeringCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    //[Tooltip("X-Axis: steering\nY-Axis: velocity\nCoordinate space is normalized")]
+    //public AnimationCurve steeringCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-    public float maxSteerStrength = 35;
-    public float steerAcceleration;
-    public float steerDeceleration;
-    public Vector2 driftInputRemap = new Vector2(0.5f, 1f);
-    public float hopSteerStrength;
-    public float speedToDrift;
-    public float driftRotationLerpFactor = 10f;
+    /* public float maxSteerStrength = 35;
+     public float steerAcceleration;
+     public float steerDeceleration;
+     public Vector2 driftInputRemap = new Vector2(0.5f, 1f);
+     public float hopSteerStrength;
+     public float speedToDrift;
+     public float driftRotationLerpFactor = 10f;
 
-    public Rigidbody Rigidbody;
+     public Rigidbody Rigidbody;*/
 
-    public bool IsBackfire => !BackfireTimer.ExpiredOrNotRunning(Runner);
-    public bool IsHopping => !HopTimer.ExpiredOrNotRunning(Runner);
+    //public bool IsBackfire => !BackfireTimer.ExpiredOrNotRunning(Runner);
+    //public bool IsHopping => !HopTimer.ExpiredOrNotRunning(Runner);
     public bool CanDrive => !IsSpinOut /*&& !IsBackfire*/;
     public float BoostTime => BoostEndTick == -1 ? 0f : (BoostEndTick - Runner.Tick) * Runner.DeltaTime;
-    public float RealSpeed => transform.InverseTransformDirection(Rigidbody.velocity).z;
+   // public float RealSpeed => transform.InverseTransformDirection(kcc.Real).z;
     //public bool IsDrifting => IsDriftingLeft || IsDriftingRight;
     public bool IsBoosting => BoostTierIndex != 0;
-    public float DriftTime => (Runner.Tick - DriftStartTick) * Runner.DeltaTime;
+    //public float DriftTime => (Runner.Tick - DriftStartTick) * Runner.DeltaTime;
 
     [Networked] public float MaxSpeed { get; set; }
     [Networked]
     public int BoostTierIndex { get; set; }
     [Networked] public TickTimer BoostpadCooldown{get;set;}
-    [Networked] public int DriftTierIndex { get; set; } = -1;
+    //[Networked] public int DriftTierIndex { get; set; } = -1;
 
     [Networked] public NetworkBool IsGrounded { get; set; }
     [Networked] public int BoostEndTick { get; set; } = -1;
 
     [Networked]
     public NetworkBool IsSpinOut { get; set; }
-    [Networked] public NetworkBool IsDriftingLeft { get; set; }
-    [Networked] public NetworkBool IsDriftingRight { get; set; }
-    [Networked] public int DriftStartTick { get; set; }
-    [Networked]
-    public TickTimer BackfireTimer { get; set; }
-    [Networked]
-    public TickTimer HopTimer { get; set; }
+    //[Networked] public NetworkBool IsDriftingLeft { get; set; }
+    //[Networked] public NetworkBool IsDriftingRight { get; set; }
+    //[Networked] public int DriftStartTick { get; set; }
+   // [Networked]
+    //public TickTimer BackfireTimer { get; set; }
+    //[Networked]
+   // public TickTimer HopTimer { get; set; }
     [Networked] public float AppliedSpeed { get; set; } = 0;
 
     //[Networked] private KartInput.NetworkInputData kartInputs { get; set; }
     public Vector3 LastMoveDirection;
 
-    public event Action<int> OnDriftTierIndexChanged;
+   // public event Action<int> OnDriftTierIndexChanged;
     public event Action<int> OnBoostTierIndexChanged;
     public event Action<bool> OnSpinOutChanged;
-    public event Action<bool> OnHopChanged;
-    public event Action<bool> OnBackfireChanged;
+   // public event Action<bool> OnHopChanged;
+    //public event Action<bool> OnBackfireChanged;
 
-    [Networked] private float SteerAmount { get; set; }
+    //[Networked] private float SteerAmount { get; set; }
     [Networked] private int AcceleratePressedTick { get; set; }
     [Networked] private bool IsAccelerateThisFrame { get; set; }
     private ChangeDetector _changeDetector;
 
-    private static void OnIsBackfireChangedCallback(Player changed) =>
-        changed.OnBackfireChanged?.Invoke(changed.IsBackfire);
+   // private static void OnIsBackfireChangedCallback(Player changed) =>
+        //changed.OnBackfireChanged?.Invoke(changed.IsBackfire);
     
-    private static void OnIsHopChangedCallback(Player changed) =>
-        changed.OnHopChanged?.Invoke(changed.IsHopping);
+   // private static void OnIsHopChangedCallback(Player changed) =>
+       // changed.OnHopChanged?.Invoke(changed.IsHopping);
 
     private static void OnSpinoutChangedCallback(Player changed) =>
         changed.OnSpinOutChanged?.Invoke(changed.IsSpinOut);
 
-    private static void OnDriftTierIndexChangedCallback(Player changed) =>
-        changed.OnDriftTierIndexChanged?.Invoke(changed.DriftTierIndex);
+   // private static void OnDriftTierIndexChangedCallback(Player changed) =>
+        //changed.OnDriftTierIndexChanged?.Invoke(changed.DriftTierIndex);
 
     private static void OnBoostTierIndexChangedCallback(Player changed) =>
         changed.OnBoostTierIndexChanged?.Invoke(changed.BoostTierIndex);
@@ -170,8 +169,6 @@ public class Player : PlayerComponent
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-
-        Debug.Log("Rigidbody RealSpeed>>" + RealSpeed);
 
         if (GetInput(out NetInput input))
         {
@@ -243,19 +240,19 @@ public class Player : PlayerComponent
                     OnBoostTierIndexChangedCallback(this);
                     break;
                 }
-                case nameof(DriftTierIndex):
+                /*case nameof(DriftTierIndex):
                 {
                     Debug.Log("DriftTierIndex Changed>>");
                     OnDriftTierIndexChangedCallback(this);
                     break;
-                }
+                }*/
                 case nameof(IsSpinOut):
                 {
                     Debug.Log("IsSpinOut Changed>>");
                     OnSpinoutChangedCallback(this);
                     break;
                 }
-                case nameof(BackfireTimer):
+                /*case nameof(BackfireTimer):
                 {
                     Debug.Log("IsSpinOut Changed>>");
 
@@ -268,7 +265,7 @@ public class Player : PlayerComponent
 
                     OnIsHopChangedCallback(this);
                     break;
-                }
+                }*/
             }
         }
         if (kcc.Settings.ForcePredictedLookRotation)
@@ -505,7 +502,7 @@ public class Player : PlayerComponent
         if (clamp) value = Mathf.Clamp(value, srcMin, srcMax);
         return (value - srcMin) / (srcMax - srcMin) * (destMax - destMin) + destMin;
     }
-    public DriftTier EvaluateDrift(float driftDuration,out int index)
+   /* public DriftTier EvaluateDrift(float driftDuration,out int index)
     {
         var i = 0;
         var tier = driftTiers[0];
@@ -528,13 +525,13 @@ public class Player : PlayerComponent
     }
     public void ResetState()
     {
-        Rigidbody.velocity = Vector3.zero;
+        //Rigidbody.velocity = Vector3.zero;
         AppliedSpeed = 0;
         BoostEndTick = -1;
         BoostTierIndex = 0;
         transform.up = Vector3.up;
         //model.transform.up = Vector3.up;
-    }
+    }*/
     public enum Axis
     {
         X,
@@ -587,9 +584,9 @@ public class Player : PlayerComponent
         {
             if (BoostTierIndex > 0)
             {
-                LastMoveDirection += new Vector3(0, 1, 0);
-                Debug.Log("CheckBoostPower Input F Key>>" + BoostTierIndex + "|" + (LastMoveDirection * 30));
-                kcc.Jump(LastMoveDirection * 30);
+                LastMoveDirection += new Vector3(0, 2.4f, 0);
+                Debug.Log("CheckBoostPower Input F Key>>" + BoostTierIndex + "|" + (LastMoveDirection * 6));
+                kcc.Jump(LastMoveDirection * 6);
             }
         }
     }

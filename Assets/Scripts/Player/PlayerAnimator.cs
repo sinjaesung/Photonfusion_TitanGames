@@ -4,11 +4,11 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerAnimator : PlayerComponent
 {
-    public ParticleSystem[] backfireEmitters;
+    //public ParticleSystem[] backfireEmitters;
     public ParticleSystem[] boostEmitters;
-    public ParticleSystem[] driftEmitters;
-    public ParticleSystem[] driftTierEmitters;
-    public ParticleSystem[] tireSmokeEmitters;
+    //public ParticleSystem[] driftEmitters;
+    //public ParticleSystem[] driftTierEmitters;
+    //public ParticleSystem[] tireSmokeEmitters;
 
     [SerializeField] private NetworkMecanimAnimator _nma;
     [SerializeField] private Animator _animator;
@@ -26,14 +26,13 @@ public class PlayerAnimator : PlayerComponent
     public void AllowDrive()
     {
         controller.RefreshAppliedSpeed();
-        //controller.IsStartRequest = false;
     }
 
     public override void Spawned()
     {
         base.Spawned();
 
-        controller.OnDriftTierIndexChanged += UpdateDriftState;
+        //controller.OnDriftTierIndexChanged += UpdateDriftState;
         controller.OnBoostTierIndexChanged += UpdateBoostState;
 
         controller.OnSpinOutChanged += val =>
@@ -55,12 +54,12 @@ public class PlayerAnimator : PlayerComponent
              }
          };*/
 
-        controller.OnBackfireChanged += val =>
+        /*controller.OnBackfireChanged += val =>
         {
             if (!val) return;
             PlayBackfire();
             AudioManager.Play("backfireSFX", AudioManager.MixerTarget.SFX, transform.position);
-        };
+        };*/
 
        /* Kart.Controller.OnHopChanged += val => {
             if (!val) return;
@@ -70,11 +69,11 @@ public class PlayerAnimator : PlayerComponent
 
     private void OnDestroy()
     {
-        controller.OnDriftTierIndexChanged -= UpdateDriftState;
+       // controller.OnDriftTierIndexChanged -= UpdateDriftState;
         controller.OnBoostTierIndexChanged -= UpdateBoostState;
     }
 
-    private void UpdateDriftState(int index)
+    /*private void UpdateDriftState(int index)
     {
         if (index == -1)
         {
@@ -114,7 +113,7 @@ public class PlayerAnimator : PlayerComponent
         }
 
         //StopSkidFX();
-    }
+    }*/
     private void UpdateBoostState(int index)
     {
         if (index == 0)
@@ -160,14 +159,14 @@ public class PlayerAnimator : PlayerComponent
             Kart.Camera.speedLines.Stop();
         }*/
     }
-    private void PlayBackfire()
+    /*private void PlayBackfire()
     {
         //SetTrigger("Stall");
         foreach (var emitter in backfireEmitters)
         {
             emitter.Play(true);
         }
-    }
+    }*/
     public void SetTrigger(string trigger)
     {
         if (Object.HasStateAuthority)

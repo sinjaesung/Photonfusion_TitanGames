@@ -96,6 +96,7 @@ public class GameUI : MonoBehaviour
         player_.OnCoinCountChanged += count =>
         {
             AudioManager.Play("coinSFX", AudioManager.MixerTarget.SFX);
+            Debug.Log("_OnCoinCountChanged>>" + count);
             coinCount.text = $"{count:00}";
         };
     }
@@ -149,7 +150,6 @@ public class GameUI : MonoBehaviour
         }*/
 
         UpdateBoostBar();
-
         //if (Kart.LapController.enabled) UpdateLapTimes();
 
         var controller = playerEntity.Controller;
@@ -175,7 +175,7 @@ public class GameUI : MonoBehaviour
         if (!playerEntity.Object || !playerEntity.Object.IsValid)
             return;
 
-        var driftIndex = playerEntity.Controller.DriftTierIndex;
+        //var driftIndex = playerEntity.Controller.DriftTierIndex;
         var boostIndex = playerEntity.Controller.BoostTierIndex;
 
         /*if (playerEntity.Controller.IsDrifting)

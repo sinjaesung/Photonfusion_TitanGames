@@ -52,32 +52,37 @@ public class PlayerAudio : PlayerComponent
     {
         base.Render();
 
-        var rb = controller.Rigidbody;
-        var speed = rb.transform.InverseTransformVector(rb.velocity / controller.maxSpeedBoosting).z;
+        //var rb = controller.Rigidbody;
+        // var speed = rb.transform.InverseTransformVector(rb.velocity / controller.maxSpeedBoosting).z;
+        var speed = controller.AppliedSpeed;
         Debug.Log("PlayerAudio Render rb speed>>" + speed);
         //HandleDriftAudio(speed);
         //HandleOffroadAudio(speed);
         HandleDriveAudio(speed);
 
-        IdleSound.volume = Mathf.Lerp(IdleSoundMaxVolume, 0.0f, speed * 4);
+        IdleSound.volume = Mathf.Lerp(IdleSoundMaxVolume, 0.0f, speed * 4);//0.6->0
     }
 
     private void HandleDriveAudio(float speed)
     {
-        Debug.Log("HandleDriveAudio" + speed);
+        Debug.Log("HandleDriveAudio playerController AppliedSpeed" + speed);
         if (speed < 0.0f)
         {
             // In reverse
             RunningSound.volume = 0.0f;
-            ReverseSound.volume = Mathf.Lerp(0.1f, ReverseSoundMaxVolume, -speed * 1.2f);
-            ReverseSound.pitch = Mathf.Lerp(0.1f, ReverseSoundMaxPitch, -speed + (Mathf.Sin(Time.time) * .1f));
+            ReverseSound.volume = Mathf.Lerp(0.1f, ReverseSoundMaxVolume, -speed * 1.2f);//0.1->0.5
+            Debug.Log("HandleDriveAudio ReverseSound Mathf.Lerp(0.1f, ReverseSoundMaxVolume, -speed * 1.2f)" + Mathf.Lerp(0.1f, ReverseSoundMaxVolume, -speed * 1.2f));
+            ReverseSound.pitch = Mathf.Lerp(0.1f, ReverseSoundMaxPitch, -speed + (Mathf.Sin(Time.time) * .1f));//0.1->0.6
+            Debug.Log("HandleDriveAudio ReverseSound Mathf.Lerp(0.1f, ReverseSoundMaxPitch, -speed + (Mathf.Sin(Time.time) * .1f))" + Mathf.Lerp(0.1f, ReverseSoundMaxPitch, -speed + (Mathf.Sin(Time.time) * .1f)));
         }
         else
         {
             // Moving forward
             ReverseSound.volume = 0.0f;
-            RunningSound.volume = Mathf.Lerp(0.1f, RunningSoundMaxVolume, speed * 1.2f);
+            RunningSound.volume = Mathf.Lerp(0.1f, RunningSoundMaxVolume, speed * 1.2f);//0.1->1.0
+            Debug.Log("HandleDriveAudio RunningSound Mathf.Lerp(0.1f, RunningSoundMaxVolume, speed * 1.2f)" + Mathf.Lerp(0.1f, RunningSoundMaxVolume, speed * 1.2f));
             RunningSound.pitch = Mathf.Lerp(0.3f, RunningSoundMaxPitch, speed + (Mathf.Sin(Time.time) * .1f));
+            Debug.Log("HandleDriveAudio RunningSound Mathf.Lerp(0.3f, RunningSoundMaxPitch, speed + (Mathf.Sin(Time.time) * .1f))" + Mathf.Lerp(0.3f, RunningSoundMaxPitch, speed + (Mathf.Sin(Time.time) * .1f)));
         }
     }
 

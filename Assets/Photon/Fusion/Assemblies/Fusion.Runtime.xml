@@ -1197,7 +1197,7 @@
             Stores requests sent by the plugin
             </summary>
         </member>
-        <member name="F:Fusion.CloudServicesMetadata.LastDisconnectMsg">
+        <member name="F:Fusion.CloudServicesMetadata.resconnectMsg">
             <summary>
             Last Disconnect Msg Received from the Plugin
             </summary>
