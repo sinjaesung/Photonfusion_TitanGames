@@ -26,7 +26,7 @@ public class PlayerAnimator : PlayerComponent
     public void AllowDrive()
     {
         controller.RefreshAppliedSpeed();
-        controller.IsStartRequest = false;
+        //controller.IsStartRequest = false;
     }
 
     public override void Spawned()
@@ -119,11 +119,12 @@ public class PlayerAnimator : PlayerComponent
     {
         if (index == 0)
         {
-            StopBoost();
+            Debug.Log("UpdateBoostState StopBoost>>"+ index);
+            Invoke(nameof(StopBoost),2f);
             return;
         }
 
-        SetTrigger("Boost");
+        //SetTrigger("Boost");
 
         Color color = controller.driftTiers[index].color;
         Debug.Log("UpdateBoostState>>" + color);
@@ -161,7 +162,7 @@ public class PlayerAnimator : PlayerComponent
     }
     private void PlayBackfire()
     {
-        SetTrigger("Stall");
+        //SetTrigger("Stall");
         foreach (var emitter in backfireEmitters)
         {
             emitter.Play(true);
@@ -170,8 +171,14 @@ public class PlayerAnimator : PlayerComponent
     public void SetTrigger(string trigger)
     {
         if (Object.HasStateAuthority)
+        {
+            Debug.Log("PlayerAnimator SetTrigger Object.HasStateAuthority>>" + trigger);
             _nma.SetTrigger(trigger);
+        }
         else if (Object.HasInputAuthority && Runner.IsForward)
+        {
+            Debug.Log("PlayerAnimator  SetTrigger Object.HasInputAuthority>>" + trigger);
             _animator.SetTrigger(trigger);
+        }
     }
 }

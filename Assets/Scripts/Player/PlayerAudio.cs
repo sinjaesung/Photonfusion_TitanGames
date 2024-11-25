@@ -26,11 +26,11 @@ public class PlayerAudio : PlayerComponent
 
     private void Start()
     {
-        controller = player;
+       // controller = player;
     }
     private void Update()
     {
-        controller = player;
+      //  controller = player;
     }
     public override void Spawned()
     {
@@ -54,8 +54,8 @@ public class PlayerAudio : PlayerComponent
 
         var rb = controller.Rigidbody;
         var speed = rb.transform.InverseTransformVector(rb.velocity / controller.maxSpeedBoosting).z;
-
-        HandleDriftAudio(speed);
+        Debug.Log("PlayerAudio Render rb speed>>" + speed);
+        //HandleDriftAudio(speed);
         //HandleOffroadAudio(speed);
         HandleDriveAudio(speed);
 
@@ -64,6 +64,7 @@ public class PlayerAudio : PlayerComponent
 
     private void HandleDriveAudio(float speed)
     {
+        Debug.Log("HandleDriveAudio" + speed);
         if (speed < 0.0f)
         {
             // In reverse
@@ -80,13 +81,14 @@ public class PlayerAudio : PlayerComponent
         }
     }
 
-    private void HandleDriftAudio(float speed)
+    /*private void HandleDriftAudio(float speed)
     {
+        Debug.Log("HandDriftAudio" + speed);
         var b = controller.IsDrifting && controller.IsGrounded
             ? speed * DriftMaxVolume
             : 0.0f;
         Drift.volume = Mathf.Lerp(Drift.volume, b, Time.deltaTime * 20f);
-    }
+    }*/
 
    /* private void HandleOffroadAudio(float speed)
     {

@@ -899,9 +899,66 @@ MonoBehaviour:
   maxGlideTime: 2
   <AbilityRange>k__BackingField: 25
   IsReady: 0
+  IsStartRequest: 0
+  IsArrive: 0
   _Name: 
   _GlideCharge: 0
   _IsGliding: 0
+  inputManager: {fileID: 0}
+  anim: {fileID: 0}
+  collider: {fileID: 0}
+  driftTiers: []
+  maxSpeedNormal: 0
+  maxSpeedBoosting: 0
+  reverseSpeed: 0
+  acceleration: 0
+  deceleration: 0
+  steeringCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxSteerStrength: 35
+  steerAcceleration: 0
+  steerDeceleration: 0
+  driftInputRemap: {x: 0.5, y: 1}
+  hopSteerStrength: 0
+  speedToDrift: 0
+  driftRotationLerpFactor: 10
+  Rigidbody: {fileID: 0}
+  _MaxSpeed: 0
+  _BoostTierIndex: 0
+  _DriftTierIndex: -1
+  _IsGrounded:
+    _value: 0
+  _BoostEndTick: -1
+  _IsSpinOut:
+    _value: 0
+  _IsDriftingLeft:
+    _value: 0
+  _IsDriftingRight:
+    _value: 0
+  _DriftStartTick: 0
+  _AppliedSpeed: 0
 --- !u!114 &4391075928499431294
 MonoBehaviour:
   m_ObjectHideFlags: 0

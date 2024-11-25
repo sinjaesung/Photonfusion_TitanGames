@@ -35,6 +35,7 @@ public class BananaPowerup : SpawnedPowerup
 
     public override bool Collide(PlayerEntity player)
     {
+        Debug.Log("BananaPowerup Collide>>" + HasInit);
         if (Object.IsValid && !HasInit) return false;
 
         player.SpinOut();

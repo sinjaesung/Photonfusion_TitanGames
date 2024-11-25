@@ -9,7 +9,7 @@ public class BoostPwerup : SpawnedPowerup
         base.Init(spawner);
 
         Debug.Log("BoostPowerup Init>>" + spawner.name);
-        spawner.Controller.GiveBoost(false, 2);
+        spawner.Controller.GiveBoost(false, 1);
     }
 
     public override void Spawned()

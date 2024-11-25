@@ -75,10 +75,10 @@ public class Player : PlayerComponent
 
     public bool IsBackfire => !BackfireTimer.ExpiredOrNotRunning(Runner);
     public bool IsHopping => !HopTimer.ExpiredOrNotRunning(Runner);
-    public bool CanDrive => !IsSpinOut && !IsBackfire;
+    public bool CanDrive => !IsSpinOut /*&& !IsBackfire*/;
     public float BoostTime => BoostEndTick == -1 ? 0f : (BoostEndTick - Runner.Tick) * Runner.DeltaTime;
     public float RealSpeed => transform.InverseTransformDirection(Rigidbody.velocity).z;
-    public bool IsDrifting => IsDriftingLeft || IsDriftingRight;
+    //public bool IsDrifting => IsDriftingLeft || IsDriftingRight;
     public bool IsBoosting => BoostTierIndex != 0;
     public float DriftTime => (Runner.Tick - DriftStartTick) * Runner.DeltaTime;
 
@@ -103,6 +103,7 @@ public class Player : PlayerComponent
     [Networked] public float AppliedSpeed { get; set; } = 0;
 
     //[Networked] private KartInput.NetworkInputData kartInputs { get; set; }
+    public Vector3 LastMoveDirection;
 
     public event Action<int> OnDriftTierIndexChanged;
     public event Action<int> OnBoostTierIndexChanged;
@@ -170,7 +171,7 @@ public class Player : PlayerComponent
     {
         base.FixedUpdateNetwork();
 
-     
+        Debug.Log("Rigidbody RealSpeed>>" + RealSpeed);
 
         if (GetInput(out NetInput input))
         {
@@ -187,56 +188,45 @@ public class Player : PlayerComponent
                 anim.SetBool("IsRunning", false);
             }
 
-            Move(input);//AppliedSpeed관련 적용(수치)
-            SpinOut(input);
-            Boost(input);
-            UseItems(input);
-
-            /*if(GetInput(out KartInput.NetworkInputData input_))
+            if (CanDrive)
             {
-                //Get Kart Inputs
-                Debug.Log("GetInput Network KartInput>>"+ input_);
-              
-                kartInputs = input_;
-       
-                //if (CanDrive)
-                Move(kartInputs);//AppliedSpeed관련 적용(수치)
-                *//* else
-                     RefreshAppliedSpeed();//속도0초기화*//*
+                Move(input);//AppliedSpeed관련 적용(수치)
 
-                //HandleStartRace();
-                SpinOut(kartInputs);
-                Boost(kartInputs);
-                Drift(kartInputs);
-                Steer(kartInputs);
-                //UpdateTireYaw(Inputs);
-                UseItems(kartInputs);
-            }*/
+                SpinOut(input);
+                Boost(input);
+                UseItems(input);
 
-            CheckGlide(input);
-            CheckJump(input);
-            kcc.AddLookRotation(input.LookDelta * lookSensitivity, -maxPitch, maxPitch);
-            UpdateCamTarget();
+                CheckGlide(input);
+                CheckJump(input);
+                CheckBoostPower(input);
 
-            if (input.Buttons.WasPressed(PreviousButtons, InputButton.Grapple))
-                TryGrapple(camTarget.forward);
+                kcc.AddLookRotation(input.LookDelta * lookSensitivity, -maxPitch, maxPitch);
+                UpdateCamTarget();
 
-            if (IsGliding && !CanGlide)
-                ToggleGlide(false);
+                if (input.Buttons.WasPressed(PreviousButtons, InputButton.Grapple))
+                    TryGrapple(camTarget.forward);
 
-            SetInputDirection(input);
-            PreviousButtons = input.Buttons;
-            baseLookRotation = kcc.GetLookRotation();
+                if (IsGliding && !CanGlide)
+                    ToggleGlide(false);
 
-            if (kcc.FixedData.IsGrounded)
-            {
-                //Debug.Log("Player개체 바닥착지>>");
-                anim.SetBool("IsGround", true);
+                SetInputDirection(input);
+                PreviousButtons = input.Buttons;
+                baseLookRotation = kcc.GetLookRotation();
+
+                if (kcc.FixedData.IsGrounded)
+                {
+                    //Debug.Log("Player개체 바닥착지>>");
+                    anim.SetBool("IsGround", true);
+                }
+                else
+                {
+                    // Debug.Log("Player개체 공중에 있는경우>>");
+                    anim.SetBool("IsGround", false);
+                }
             }
             else
             {
-               // Debug.Log("Player개체 공중에 있는경우>>");
-                anim.SetBool("IsGround", false);
+                Debug.Log("조작 제한>>");
             }
         }
     }
@@ -249,7 +239,7 @@ public class Player : PlayerComponent
             {
                 case nameof(BoostTierIndex):
                 {
-                    Debug.Log("BoostTierIndex Changed>>");
+                    Debug.Log("BoostTierIndex Changed>>"+ BoostTierIndex);
                     OnBoostTierIndexChangedCallback(this);
                     break;
                 }
@@ -424,6 +414,7 @@ public class Player : PlayerComponent
         }
         else if (BoostEndTick != -1)
         {
+            Debug.Log("BoostEndTick StopBoosting>>" + BoostEndTick);
             StopBoosting();
         }
     }
@@ -489,6 +480,14 @@ public class Player : PlayerComponent
         Debug.Log("GiveBoost BoostTierIndex>>" + BoostTierIndex);
         if (BoostEndTick == -1) BoostEndTick = Runner.Tick;
         BoostEndTick += (int)(driftTiers[tier].boostDuration / Runner.DeltaTime);
+
+        Debug.Log("BoostEndTick Update>>" + BoostEndTick);
+
+        //Vector3 worldDirection = LastMoveDirection;
+        //kcc.SetDynamicVelocity(worldDirection);
+        //Debug.Log("GiveBoost >> 마지막 이동방향으로 AddExternalImpulse" + worldDirection * (50 * tier));
+        //kcc.AddExternalImpulse(worldDirection * (50*tier));
+        
     }
     public void RefreshAppliedSpeed()
     {
@@ -581,6 +580,19 @@ public class Player : PlayerComponent
             }
         }
     }
+    private void CheckBoostPower(NetInput input)
+    {
+        Debug.Log("CheckBoostPower>>" + BoostTierIndex);
+        if (input.Buttons.WasPressed(PreviousButtons, InputButton.F))
+        {
+            if (BoostTierIndex > 0)
+            {
+                LastMoveDirection += new Vector3(0, 1, 0);
+                Debug.Log("CheckBoostPower Input F Key>>" + BoostTierIndex + "|" + (LastMoveDirection * 30));
+                kcc.Jump(LastMoveDirection * 30);
+            }
+        }
+    }
     private void JumpBooleanStatus()
     {
         anim.SetBool("Jumping", false);
@@ -596,9 +608,11 @@ public class Player : PlayerComponent
         }
         else
             worldDirection = kcc.FixedData.TransformRotation * input.Direction.X0Y();
-
+        Debug.Log("Player SetInputDirection AppliedSpeed>>" +AppliedSpeed);
         Debug.Log("Player SetInputDirection>>" + worldDirection * AppliedSpeed);
-        kcc.SetInputDirection(worldDirection * AppliedSpeed);
+        kcc.SetInputDirection(worldDirection,false);
+
+        LastMoveDirection = worldDirection * AppliedSpeed;
     }
 
     private void UpdateCamTarget()
@@ -625,7 +639,7 @@ public class Player : PlayerComponent
         kcc.SetPosition(position);
         kcc.SetLookRotation(rotation);
     }
-
+    
     public void ResetCooldowns()
     {
         GrappleCD = TickTimer.None;

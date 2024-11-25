@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boostpad : MonoBehaviour
 {
-    public int boostLevel = 1;
+    public int boostLevel = 3;
 
     private void OnTriggerStay(Collider other)
     {

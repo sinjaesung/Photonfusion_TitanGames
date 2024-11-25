@@ -258,12 +258,12 @@ GameObject:
   - component: {fileID: 4893721}
   - component: {fileID: 4893720}
   - component: {fileID: 4893719}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &4893718
 Transform:
@@ -287,7 +287,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4893717}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e8572fa1d36fef749af71da8ae2721f5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -313,7 +313,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -330,7 +330,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
+  m_ReceiveGI: 2
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -707,6 +707,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Boostpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730207018439699349, guid: 2e4f6b5aa25c7af4e97252a081a142cc,
+        type: 3}
+      propertyPath: boostLevel
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6094,6 +6099,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkyGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc2d1524e97d54345946e04d60c385ec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14947,6 +14957,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HugeTree
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 10e00d3806112a243b422403bd0c6292,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16694,17 +16709,17 @@ PrefabInstance:
     - target: {fileID: 2378580335836201517, guid: 772b195d8817da14e8d5a8a8019c79ff,
         type: 3}
       propertyPath: followOffset.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2378580335836201517, guid: 772b195d8817da14e8d5a8a8019c79ff,
         type: 3}
       propertyPath: followOffset.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2378580335836201517, guid: 772b195d8817da14e8d5a8a8019c79ff,
         type: 3}
       propertyPath: followOffset.z
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5546890675370244539, guid: 772b195d8817da14e8d5a8a8019c79ff,
         type: 3}

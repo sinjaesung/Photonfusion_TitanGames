@@ -13,6 +13,7 @@ public abstract class SpawnedPowerup : NetworkBehaviour, ICollidable
     {
         base.Spawned();
 
+        Debug.Log("SpawnedPowerup>>");
         HasInit = true;
     }
 

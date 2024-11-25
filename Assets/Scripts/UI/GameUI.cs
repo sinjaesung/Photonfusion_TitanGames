@@ -160,14 +160,14 @@ public class GameUI : MonoBehaviour
             Color color = controller.driftTiers[controller.BoostTierIndex].color;
             SetBoostBarColor(color);
         }
-        else
+        /*else
         {
             if (!controller.IsDrifting) return;
 
             SetBoostBarColor(controller.DriftTierIndex < controller.driftTiers.Length - 1
                 ? controller.driftTiers[controller.DriftTierIndex + 1].color
                 : controller.driftTiers[controller.DriftTierIndex].color);
-        }
+        }*/
     }
 
     private void UpdateBoostBar()
@@ -178,20 +178,20 @@ public class GameUI : MonoBehaviour
         var driftIndex = playerEntity.Controller.DriftTierIndex;
         var boostIndex = playerEntity.Controller.BoostTierIndex;
 
-        if (playerEntity.Controller.IsDrifting)
+        /*if (playerEntity.Controller.IsDrifting)
         {
             if (driftIndex < playerEntity.Controller.driftTiers.Length - 1)
                 SetBoostBar((playerEntity.Controller.DriftTime - playerEntity.Controller.driftTiers[driftIndex].startTime) /
                             (playerEntity.Controller.driftTiers[driftIndex + 1].startTime - playerEntity.Controller.driftTiers[driftIndex].startTime));
             else
                 SetBoostBar(1);
-        }
-        else
-        {
+        }*/
+        //else
+        //{
             SetBoostBar(boostIndex == -1
                 ? 0f
                 : playerEntity.Controller.BoostTime / playerEntity.Controller.driftTiers[boostIndex].boostDuration);
-        }
+        //}
     }
 
    /* private void UpdateLapTimes()
