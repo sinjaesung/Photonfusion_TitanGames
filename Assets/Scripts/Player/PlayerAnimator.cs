@@ -40,7 +40,12 @@ public class PlayerAnimator : PlayerComponent
             if (!val) return;
             SetTrigger("Spinout");
         };
-
+        controller.OnDieChanged += val =>
+        {
+            if (!val) return;
+            Debug.Log("PlayerAnimator OnDieChanged>>");
+            SetTrigger("Die");
+        };
         /* Kart.Controller.OnBumpedChanged += val =>
          {
              if (val)
@@ -61,10 +66,10 @@ public class PlayerAnimator : PlayerComponent
             AudioManager.Play("backfireSFX", AudioManager.MixerTarget.SFX, transform.position);
         };*/
 
-       /* Kart.Controller.OnHopChanged += val => {
-            if (!val) return;
-            Kart.Animator.SetTrigger("Hop");
-        };*/
+        /* Kart.Controller.OnHopChanged += val => {
+             if (!val) return;
+             Kart.Animator.SetTrigger("Hop");
+         };*/
     }
 
     private void OnDestroy()

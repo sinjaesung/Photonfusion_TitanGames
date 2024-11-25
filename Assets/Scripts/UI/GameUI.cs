@@ -22,6 +22,7 @@ public class GameUI : MonoBehaviour
     //public EndRaceUI endRaceScreen;
     public Image pickupDisplay;
     public Image boostBar;
+    public Image HealthBar;
     public Text coinCount;
     //public Text lapCount;
     //public Text raceTimeText;
@@ -150,6 +151,8 @@ public class GameUI : MonoBehaviour
         }*/
 
         UpdateBoostBar();
+        UpdateHealthBar();
+
         //if (Kart.LapController.enabled) UpdateLapTimes();
 
         var controller = playerEntity.Controller;
@@ -193,35 +196,42 @@ public class GameUI : MonoBehaviour
                 : playerEntity.Controller.BoostTime / playerEntity.Controller.driftTiers[boostIndex].boostDuration);
         //}
     }
-
-   /* private void UpdateLapTimes()
+    private void UpdateHealthBar()
     {
-        if (!Kart.LapController.Object || !Kart.LapController.Object.IsValid)
+        if (!playerEntity.Object || !playerEntity.Object.IsValid)
             return;
-        var lapTimes = Kart.LapController.LapTicks;
-        for (var i = 0; i < Mathf.Min(lapTimes.Length, lapTimeTexts.Length); i++)
-        {
-            var lapTicks = lapTimes.Get(i);
 
-            if (lapTicks == 0)
-            {
-                lapTimeTexts[i].text = "";
-            }
-            else
-            {
-                var previousTicks = i == 0
-                    ? Kart.LapController.StartRaceTick
-                    : lapTimes.Get(i - 1);
+        Debug.Log("UpdateHealthBar>>" + playerEntity.Controller.Health /playerEntity.Controller.maxHealth);
+        HealthBar.fillAmount = playerEntity.Controller.Health / playerEntity.Controller.maxHealth;
+    }
+    /* private void UpdateLapTimes()
+     {
+         if (!Kart.LapController.Object || !Kart.LapController.Object.IsValid)
+             return;
+         var lapTimes = Kart.LapController.LapTicks;
+         for (var i = 0; i < Mathf.Min(lapTimes.Length, lapTimeTexts.Length); i++)
+         {
+             var lapTicks = lapTimes.Get(i);
 
-                var deltaTicks = lapTicks - previousTicks;
-                var time = TickHelper.TickToSeconds(Kart.Runner, deltaTicks);
+             if (lapTicks == 0)
+             {
+                 lapTimeTexts[i].text = "";
+             }
+             else
+             {
+                 var previousTicks = i == 0
+                     ? Kart.LapController.StartRaceTick
+                     : lapTimes.Get(i - 1);
 
-                SetLapTimeText(time, i);
-            }
-        }
+                 var deltaTicks = lapTicks - previousTicks;
+                 var time = TickHelper.TickToSeconds(Kart.Runner, deltaTicks);
 
-        SetRaceTimeText(Kart.LapController.GetTotalRaceTime());
-    }*/
+                 SetLapTimeText(time, i);
+             }
+         }
+
+         SetRaceTimeText(Kart.LapController.GetTotalRaceTime());
+     }*/
 
     public void SetBoostBar(float amount)
     {

@@ -1459,7 +1459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb9d6d5184a3ae4b87b744535bf511b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelParts: []
   kcc: {fileID: 4391075928499431294}
   glideProcessor: {fileID: 3540907148272033431, guid: 6dde4e95e9ae2d547971fdb72f979b45,
     type: 3}
@@ -1505,61 +1504,21 @@ MonoBehaviour:
   reverseSpeed: 15
   acceleration: 0.5
   deceleration: 0.75
-  steeringCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.1632638
-      outSlope: 3.1632638
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.20379362
-    - serializedVersion: 3
-      time: 0.513275
-      value: 1.0021057
-      inSlope: -0.110508986
-      outSlope: -0.110508986
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.49713138
-    - serializedVersion: 3
-      time: 1.0041809
-      value: 0.9029579
-      inSlope: -0.17311127
-      outSlope: -0.17311127
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.34802514
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  maxSteerStrength: 35
-  steerAcceleration: 5
-  steerDeceleration: 5
-  driftInputRemap: {x: 0.5, y: 1}
-  hopSteerStrength: 30
-  speedToDrift: 10
-  driftRotationLerpFactor: 25
-  Rigidbody: {fileID: 5555162426367305650}
   _MaxSpeed: 0
   _BoostTierIndex: 0
-  _DriftTierIndex: -1
   _IsGrounded:
     _value: 0
   _BoostEndTick: -1
   _IsSpinOut:
     _value: 0
-  _IsDriftingLeft:
+  _IsArrested:
     _value: 0
-  _IsDriftingRight:
+  _Health: 0
+  maxHealth: 100
+  _IsDie:
     _value: 0
-  _DriftStartTick: 0
   _AppliedSpeed: 0
+  LastMoveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &5380905122836385678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1671,8 +1630,8 @@ MonoBehaviour:
   TotalWords: 3
   ApplyTiming: 2
   SyncSettings: -1
-  StateHashes: 00000000f3b09ce077934a0f2b1a167c794069552638cb43a21b1dac305212d913e2117f9ca371c52c52ce9bf2464eb57665985a
-  TriggerHashes: 0000000028a981071200038d
+  StateHashes: 00000000f3b09ce077934a0f2b1a167c794069552638cb43a21b1dac305212d913e2117f9ca371c52c52ce9bf2464eb57665985a37b935014e73a6a7
+  TriggerHashes: 0000000028a981071200038d37b93501
 --- !u!135 &4649081421730622938
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1785,12 +1744,6 @@ PrefabInstance:
 --- !u!4 &6574849482056693647 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6040984692440208697, guid: e79e2b6d574a48446a0d15762ce84c1d,
-    type: 3}
-  m_PrefabInstance: {fileID: 642727591922295478}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8269003759569442213 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8802859749027575571, guid: e79e2b6d574a48446a0d15762ce84c1d,
     type: 3}
   m_PrefabInstance: {fileID: 642727591922295478}
   m_PrefabAsset: {fileID: 0}
@@ -2261,17 +2214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02dfca289335a9b44b6cd1f61249b775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backfireEmitters:
-  - {fileID: 8269003759569442213}
-  - {fileID: 5829639439047017303}
   boostEmitters:
   - {fileID: 6436063786442163209}
   - {fileID: 9214350806348267256}
-  driftEmitters:
-  - {fileID: 6192155423004004429}
-  - {fileID: 1009713994324791499}
-  driftTierEmitters: []
-  tireSmokeEmitters: []
   _nma: {fileID: 5205770220429196259}
   _animator: {fileID: 4632373621013367526}
   controller: {fileID: 7227464116718632667}
@@ -2385,12 +2330,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e79e2b6d574a48446a0d15762ce84c1d, type: 3}
---- !u!198 &5829639439047017303 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8802859749027575571, guid: e79e2b6d574a48446a0d15762ce84c1d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3084121747190854724}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8725974905463939453 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6040984692440208697, guid: e79e2b6d574a48446a0d15762ce84c1d,
@@ -2505,12 +2444,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a15adda0447bde14d95a3b3564c4c1d9, type: 3}
---- !u!198 &1009713994324791499 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3500899563912576461, guid: a15adda0447bde14d95a3b3564c4c1d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 4509941738771344646}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4996663172524852525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8917477677665003563, guid: a15adda0447bde14d95a3b3564c4c1d9,
@@ -2862,12 +2795,6 @@ PrefabInstance:
 --- !u!4 &2214218115922724267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8917477677665003563, guid: a15adda0447bde14d95a3b3564c4c1d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 7312514382561127808}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6192155423004004429 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3500899563912576461, guid: a15adda0447bde14d95a3b3564c4c1d9,
     type: 3}
   m_PrefabInstance: {fileID: 7312514382561127808}
   m_PrefabAsset: {fileID: 0}
