@@ -15,6 +15,9 @@ public class PlayerAnimator : PlayerComponent
 
     public Player controller;
 
+    public GameObject DefensePowerup;
+    public GameObject ArrestBox;
+
     private void Start()
     {
         //controller = player;
@@ -39,6 +42,40 @@ public class PlayerAnimator : PlayerComponent
         {
             if (!val) return;
             SetTrigger("Spinout");
+        };
+        controller.OnDefenseChanged += val =>
+        {
+            if (controller.PrevDefense == val)
+            {
+                return;
+            }
+
+            Debug.Log("PlayerAnimator OnDefenseChanged>>" + controller.PrevDefense + ">" + val);
+            if (controller.PrevDefense < val)
+            {
+                Debug.Log("방어력 증가");
+                DefensePowerup.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("방어력 감소");
+                DefensePowerup.gameObject.SetActive(false);
+            }
+        };
+        controller.OnArrestChanged += val =>
+        {
+            Debug.Log("PlayerAnimator OnArrestChanged>>");
+
+            if (val == true)
+            {
+                Debug.Log("PlayerAnimator ArrestOn>>");
+                ArrestBox.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("PlayerAnimator ArrestOff>>");
+                ArrestBox.gameObject.SetActive(false);
+            }
         };
         controller.OnDieChanged += val =>
         {
@@ -124,7 +161,7 @@ public class PlayerAnimator : PlayerComponent
         if (index == 0)
         {
             Debug.Log("UpdateBoostState StopBoost>>"+ index);
-            Invoke(nameof(StopBoost),2f);
+            Invoke(nameof(StopBoost),4f);
             return;
         }
 

@@ -3110,6 +3110,71 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[14].Key
+      value: HPSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[15].Key
+      value: HPReduce
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[16].Key
+      value: DefenseReset
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[17].Key
+      value: DefenseActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[18].Key
+      value: Lock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[19].Key
+      value: UnLock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[14].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: d188a47cfe5d7a84cb4dbae4e3a3cb45, type: 3}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[15].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: e07e0443836b2e94db370fad428031f0, type: 3}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[16].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: d08801bb27b52ed4b9df76d5dfa547a6, type: 3}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[17].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: c7ed924e3a9f7904fb083015f085ec7f, type: 3}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[18].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: 93384ccbdde6d6841976eb2b76842cf2, type: 3}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[19].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: d473431226308bf428d57f51f2e6a819, type: 3}
     - target: {fileID: 4497376138282162451, guid: 6b7481398d71da0449637503aaea32bd,
         type: 3}
       propertyPath: m_Name
@@ -3760,6 +3825,23 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1391127264420272423, guid: a10e58a42bb29314c9220d478b9386ad,
+        type: 3}
+      propertyPath: powerups.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391127264420272423, guid: a10e58a42bb29314c9220d478b9386ad,
+        type: 3}
+      propertyPath: powerups.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cfc5fa6f166e1e46914eaf940358150,
+        type: 2}
+    - target: {fileID: 1391127264420272423, guid: a10e58a42bb29314c9220d478b9386ad,
+        type: 3}
+      propertyPath: powerups.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4405b99c3cf23fb4ea514513354c3ce5,
+        type: 2}
     - target: {fileID: 2531268566981355469, guid: a10e58a42bb29314c9220d478b9386ad,
         type: 3}
       propertyPath: m_Name

@@ -96,7 +96,11 @@ public class Player : PlayerComponent
     public NetworkBool IsArrested { get; set; }
     [Networked]
     public float Health { get; set; }
+    public float PrevHealth;
     public float maxHealth;
+    [Networked]
+    public float Defense { get; set; } = 0;
+    public float PrevDefense;
     [Networked]
     public NetworkBool IsDie { get; set; }
 
@@ -116,6 +120,8 @@ public class Player : PlayerComponent
     public event Action<int> OnBoostTierIndexChanged;
     public event Action<bool> OnSpinOutChanged;
     public event Action<float> OnHealthChanged;
+    public event Action<float> OnDefenseChanged;
+    public event Action<bool> OnArrestChanged;
     public event Action<bool> OnDieChanged;
    // public event Action<bool> OnHopChanged;
     //public event Action<bool> OnBackfireChanged;
@@ -141,6 +147,10 @@ public class Player : PlayerComponent
         changed.OnBoostTierIndexChanged?.Invoke(changed.BoostTierIndex);
     private static void OnHealthChangedCallback(Player changed) =>
         changed.OnHealthChanged?.Invoke(changed.Health);
+    private static void OnDefenseChangedCallback(Player changed) =>
+        changed.OnDefenseChanged?.Invoke(changed.Defense);
+    private static void OnArrestChangedCallback(Player changed) =>
+        changed.OnArrestChanged.Invoke(changed.IsArrested);
     private static void OnDieChangedCallback(Player changed) =>
         changed.OnDieChanged?.Invoke(changed.IsDie);
 
@@ -156,6 +166,8 @@ public class Player : PlayerComponent
         _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
         MaxSpeed = maxSpeedNormal;
         Health = maxHealth;
+        PrevHealth = maxHealth;
+        PrevDefense = 0;
 
         glideDrain = 1f / (maxGlideTime * Runner.TickRate);
         GlideCharge = 1f;
@@ -273,6 +285,18 @@ public class Player : PlayerComponent
                     Debug.Log("Health Changed>>");
                     OnHealthChangedCallback(this);
                     break;
+                    }
+                case nameof(Defense):
+                {
+                    Debug.Log("Defense Changed>>");
+                    OnDefenseChangedCallback(this);
+                    break;
+                }
+                case nameof(IsArrested):
+                {
+                    Debug.Log("IsArrested Changed>>");
+                    OnArrestChangedCallback(this);
+                    break;
                 }
                 case nameof(IsDie):
                 {
@@ -335,8 +359,20 @@ public class Player : PlayerComponent
     }
     public void UpdateHealth(int health_)
     {
-        Health -= health_;
-
+        if(health_ > 0)
+        {
+            var damage = health_ - Defense;
+            if (damage <= 0)
+            {
+                damage = 0;
+            }
+            Health -= (damage);
+        }
+        else
+        {
+            Health -= health_;
+        }
+      
         if(Health <= 0)
         {
             Die();

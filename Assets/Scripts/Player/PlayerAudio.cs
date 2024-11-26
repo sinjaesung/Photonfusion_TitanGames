@@ -40,7 +40,60 @@ public class PlayerAudio : PlayerComponent
             if (!val) return;
             AudioManager.PlayAndFollow("slipSFX", transform, AudioManager.MixerTarget.SFX);
         };
+        controller.OnHealthChanged += val => {
+            //if (!val) return;
+            if(controller.PrevHealth == val)
+            {
+                return;
+            }
+            Debug.Log("OnHealthChanged>>" + controller.PrevHealth + "->" + val);
+            if(controller.PrevHealth > val)
+            {
+                Debug.Log("체력 감소>>");
+                AudioManager.PlayAndFollow("HPReduce", transform, AudioManager.MixerTarget.SFX);
+            }
+            else
+            {
+                Debug.Log("체력 증가>>");
+                AudioManager.PlayAndFollow("HPSFX", transform, AudioManager.MixerTarget.SFX);
+            }
+            controller.PrevHealth = val;
+        };
+        controller.OnDefenseChanged += val =>
+        {
+            if (controller.PrevDefense == val)
+            {
+                return;
+            }
 
+            Debug.Log("PlayerAudio OnDefenseChanged>>" + controller.PrevDefense + ">" + val);
+            if (controller.PrevDefense < val)
+            {
+                Debug.Log("방어력 증가");
+                AudioManager.PlayAndFollow("DefenseActive", transform, AudioManager.MixerTarget.SFX);
+            }
+            else
+            {
+                Debug.Log("방어력 감소");
+                AudioManager.PlayAndFollow("DefenseReset", transform, AudioManager.MixerTarget.SFX);
+            }
+            controller.PrevDefense = val;
+        };
+        controller.OnArrestChanged += val =>
+        {
+            Debug.Log("PlayerAudio ArrestChanged>>");
+
+            if(val == true)
+            {
+                Debug.Log("PlayerAudio ArrestOn>>");
+                AudioManager.PlayAndFollow("Lock", transform, AudioManager.MixerTarget.SFX);
+            }
+            else
+            {
+                Debug.Log("PlayerAudio ArrestOff>>");
+                AudioManager.PlayAndFollow("UnLock", transform, AudioManager.MixerTarget.SFX);
+            }
+        };
         controller.OnBoostTierIndexChanged += val => {
             if (val == 0) return;
 

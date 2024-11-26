@@ -162,4 +162,30 @@ public class PlayerEntity : PlayerComponent
 
         Controller.IsSpinOut = false;
     }
+
+    public void DefenseUp(float DefensePower)
+    {
+        Controller.Defense = DefensePower;
+
+        StartCoroutine(OnDefenseOut());
+    }
+    private IEnumerator OnDefenseOut()
+    {
+        yield return new WaitForSeconds(6f);
+
+        Controller.Defense = 0;
+    }
+
+    public void ArrestUp(float ArrestTime)
+    {
+        Controller.IsArrested = true;
+
+        StartCoroutine(OnArrestOut(ArrestTime));
+    }
+    private IEnumerator OnArrestOut(float ArrestTime)
+    {
+        yield return new WaitForSeconds(ArrestTime);
+
+        Controller.IsArrested = false;
+    }
 }
