@@ -357,7 +357,7 @@ public class Player : PlayerComponent
 
         IsAccelerateThisFrame = isAccelerate;
     }
-    public void UpdateHealth(int health_)
+    public void UpdateHealth(float health_)
     {
         if(health_ > 0)
         {

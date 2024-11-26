@@ -1340,6 +1340,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefabs:
   - RawGuidValue: 091e05df56044324aa97910129d76a86
+  - RawGuidValue: 5930d8aa3dbdb8e46b3b038b2d1cfa35
+  - RawGuidValue: 54fbbb4e82576a1419de583660244767
+  - RawGuidValue: fb5c973b7e9d5e140bf3822d04fc9c6d
+  - RawGuidValue: c46fb32c68483044b84eb6c734e63c46
   spawnpoint: {fileID: 329352250}
   spawnpointPivot: {fileID: 1195123766}
   gamemanager: {fileID: 0}

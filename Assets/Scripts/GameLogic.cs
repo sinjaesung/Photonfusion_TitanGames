@@ -209,8 +209,8 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
                 else
                 {
                     Debug.Log(random_index + "는 이미 존재하는 선택캐릭터> cnt:"+ cnt);
-                    IsValid = true;
-                    random_indexUse = random_index;
+                    //IsValid = true;
+                    //random_indexUse = random_index;
                 }
 
                 if (cnt >= safeCnt)
