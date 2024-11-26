@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,7 +25,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     [Header("Attack")]
     public Status status; //이동속도 등의 정보
     protected IEnemySpawner enemyMemoryPool; //적 메모리 풀 (적 오브젝트 비활성화에 사용)
-    protected HealthPlayer targetHealth;
+    protected Player targetHealth;
     [SerializeField] float naviMeshSpeed;
 
     [SerializeField] IEnemyMeleeCollider[] enemymeleeColliders;
@@ -49,8 +48,8 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
 
     private void Awake()
     {
-        playerTransform = FindObjectOfType<Player>().transform;
-        targetHealth = playerTransform.GetComponent<HealthPlayer>();
+       // playerTransform = FindObjectOfType<Player>().transform;
+       // targetHealth = playerTransform.GetComponent<Player>();
 
         status = GetComponent<Status>();
         navAgent = GetComponent<NavMeshAgent>();
@@ -161,6 +160,8 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
             //Debug.Log("Found Player I think.");
             //attacktarget = withinAggroColliders[0].GetComponent<PlayerControls>().transform;
             //playerTransform = attacktarget;//주변에 플레이어본체 찾으면 스크립트로 지정.
+           if(attacktarget)
+             targetHealth = attacktarget.GetComponent<Player>();
 
             DistanceToPoint = Vector3.Distance(spawnPoint.position, transform.position);
             if (DistanceToPoint < LeastDistance)
@@ -170,10 +171,11 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
             //Debug.Log("DistanceTOpOINTS:" + DistanceToPoint);
             if (!returningToPoint)
             {
-                if (targetHealth != null && targetHealth.currentHealthPoint > 0)
+                if (targetHealth != null && targetHealth.Health > 0)
                 {
                     //ChasePlayer(withinAggroColliders[0].GetComponent<PlayerControls>());
-                    ChasePlayer(playerTransform);
+                    if(attacktarget)
+                     ChasePlayer(attacktarget);
                 }
             }
             else
@@ -211,7 +213,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
                 //공격주기가 되야 공격할 수 있도록 하기 위해 현재 시간 저장
                 lastAttackTime = Time.time;
 
-                if (targetHealth != null && targetHealth.currentHealthPoint <= 0)
+                if (targetHealth != null && targetHealth.Health <= 0)
                 {
                     Debug.Log("캐릭터가 공격중에 죽었으면 공격을 중단!");
                     if (GetComponent<Animator>() != null)
@@ -252,7 +254,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
         {
             if (distanceToPlayer <= attackRange && returningToPoint == false)
             {
-                if (targetHealth != null && targetHealth.currentHealthPoint > 0)
+                if (targetHealth != null && targetHealth.Health > 0)
                 {
                     //Debug.Log("IEnemyFSM 타깃 공격범위내로발견 타깃을 공격!");
 
@@ -279,7 +281,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
                 AttackReset();
 
                 //타겟 방향 주시
-                if (targetHealth != null && targetHealth.currentHealthPoint > 0)
+                if (targetHealth != null && targetHealth.Health > 0)
                 {
                     LookRotationToTarget();
 
@@ -321,7 +323,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
             {
                 Collider target = Perceptiontargets[t];
                 // Debug.Log("현재 공격범위내에서 감지된 모든 player류 타깃들: " + t + "| " + target.transform.name);
-                if (target.tag == "Kart")
+                if (target.tag == "Player")
                 {
                     filterPerceptions.Add(target);
                 }
@@ -403,7 +405,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     {
         //공격,추적시 본 캐릭터를 바라보게
         //목표 위치
-        Vector3 to = new Vector3(playerTransform.position.x, 0, playerTransform.position.z);
+        Vector3 to = new Vector3(attacktarget.position.x, 0, attacktarget.position.z);
         //내 위치
         Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);
 

@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using Unity.AI.Navigation;
 using System.Buffers;
 using NanoSockets;
-using UnityEditor.Experimental.GraphView;
 
 public class EnemyFSM : MonoBehaviour, SEnemy
 {
@@ -36,22 +35,16 @@ public class EnemyFSM : MonoBehaviour, SEnemy
 
     [Header("Attack")]
     [SerializeField]
-    protected projectiles projectilePrefab; //발사체 프리팹
-    [SerializeField]
     protected Transform projectileSpawnPoint;//발사체 생성 위치
 
     public Status status;//이동속도 등의 정보
     protected EnemyMemoryPool enemyMemoryPool; //적 메모리 풀(적 오브젝트 관리)
-    public EnemyProjectileMemeoryPool enemyProjectileMemoryPool;
-    protected HealthPlayer targetHealth;
 
     [SerializeField] float naviMeshSpeed;
 
     [SerializeField] EnemyMeleeCollider[] enemymeleeColliders;
     [SerializeField] public bool attacking = false;
 
-    [SerializeField] private ImpactMemoryPool impactmemorypool;
-    [SerializeField] private ImpactType removeImpact;
 
     //PlayerAI WITH관련 2차기능추가
     //public GameObject ShootingRaycastArea;//발사체 발사기준origin raycasting 2차기능추가
@@ -63,9 +56,10 @@ public class EnemyFSM : MonoBehaviour, SEnemy
     public Vector3 AttackDirection;//공격방향 동적변경
     public bool playerInshootingRadius;//공격범위내에있는지여부
 
+    public Player targetHealth;
     private void Awake()
     {
-        playerTransform = FindObjectOfType<Player>().transform;
+       // playerTransform = FindObjectOfType<Player>().transform;
         Target = null;
         aiMover = GetComponent<AiMover>();
 
@@ -95,7 +89,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
     private void Start()
     {
     }
-    public virtual void Setup(Transform target, EnemyMemoryPool enemyMemoryPool)
+    public virtual void Setup(Transform target,EnemyMemoryPool enemyMemoryPool)
     {
         status = GetComponent<Status>();
         status.CurrentHP = status.MaxHP;
@@ -105,10 +99,6 @@ public class EnemyFSM : MonoBehaviour, SEnemy
         this.attacktarget = target; //초기생성셋업시 플레이어로 설정되었다가 공격범위추산하여 근처에 플레이어류들이 적들로 동적변경가능.
 
         this.enemyMemoryPool = enemyMemoryPool;
-        if (enemyProjectileMemoryPool != null)
-        {
-            this.enemyProjectileMemoryPool = enemyProjectileMemoryPool;
-        }
 
         //NavMeshAgent 컴포넌트에서 회전을 업데이트하지 않도록 설정
         // Debug.Log("EnemyFSM setup pooing setup당시때의 Enemy생성당시의위치transform위치" + navMeshAgent+","+transform.position);
@@ -156,8 +146,8 @@ public class EnemyFSM : MonoBehaviour, SEnemy
         }
         if (Target != null)
         {
-            targetHealth = Target.GetComponent<HealthPlayer>();
-            if (targetHealth.currentHealthPoint <= 0)
+            targetHealth = Target.GetComponent<Player>();
+            if (targetHealth.Health <= 0)
             {
                 ReturnToSpawn();
             }
@@ -226,7 +216,8 @@ public class EnemyFSM : MonoBehaviour, SEnemy
             if (hitColliders[i].transform.tag == "Kart")//플레이어타깃
             {
                 // Target = hitColliders[i].transform.gameObject;
-                Target = playerTransform.gameObject;//player캐릭터개체추적.
+                Target = attacktarget.gameObject;
+                //Target = playerTransform.gameObject;//player캐릭터개체추적.
                 //attacktarget = Target.transform;
                 foundTarget = true;
             }
@@ -255,7 +246,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
                 //공격주기가 되야 공격할 수 있도록 하기 위해 현재 시간 저장
                 lastAttackTime = Time.time;
 
-                if (targetHealth != null && targetHealth.currentHealthPoint <= 0)
+                if (targetHealth != null && targetHealth.Health <= 0)
                 {
                     Debug.Log("캐릭터가 공격중에 죽었으면 공격을 중단!");
                     if (GetComponent<Animator>() != null)
@@ -303,7 +294,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
         {
             if (distanceToPlayer < attackRange && returningToPoint == false)
             {
-                if (targetHealth != null && targetHealth.currentHealthPoint > 0)
+                if (targetHealth != null && targetHealth.Health > 0)
                 {
                     //Debug.Log("EnemyFSM 타깃발견 타깃을 공격!");
 
@@ -329,7 +320,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
                 AttackReset();
 
                 //타겟 방향 주시
-                if (targetHealth != null && targetHealth.currentHealthPoint > 0)
+                if (targetHealth != null && targetHealth.Health > 0)
                 {
                     //LookRotationToTarget();
 
@@ -357,7 +348,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
             {
                 Collider target = Perceptiontargets[t];
                 //Debug.Log("현재 공격범위내에서 감지된 모든 player류 타깃들: " + t + "| " + target.transform.name);
-                if (target.tag == "Kart")
+                if (target.tag == "Player")
                 {
                     filterPerceptions.Add(target);
                 }
@@ -478,11 +469,11 @@ public class EnemyFSM : MonoBehaviour, SEnemy
         //Debug.Log("EnemyFSM Enemy 체력감소:" + status.CurrentHP + "isDie:" + isDie);
         if (isDie == true)
         {
-            impactmemorypool.OnSpawnImpact(removeImpact, transform.position, Quaternion.identity);
+            //impactmemorypool.OnSpawnImpact(removeImpact, transform.position, Quaternion.identity);
 
             // DropLoot();
             //CombatEvents.EnemyDied(this);
-            Debug.Log("EnemyFSM(Senemy) 대상체삭제:" + transform.name + ",경험치:" + Experience);
+            //Debug.Log("EnemyFSM(Senemy) 대상체삭제:" + transform.name + ",경험치:" + Experience);
             Debug.Log("EnemyFSM 메모리풀삭제");
             enemyMemoryPool.DeactivateEnemy(gameObject);
         }

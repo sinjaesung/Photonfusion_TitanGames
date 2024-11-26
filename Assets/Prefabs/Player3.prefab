@@ -793,7 +793,7 @@ GameObject:
   - component: {fileID: 13191506929836477}
   m_Layer: 7
   m_Name: Player3
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -909,7 +909,7 @@ MonoBehaviour:
     _value: 0
   _Health: 0
   PrevHealth: 0
-  maxHealth: 100
+  maxHealth: 50000
   _Defense: 0
   PrevDefense: 0
   _IsDie:

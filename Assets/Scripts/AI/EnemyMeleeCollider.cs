@@ -17,8 +17,11 @@ public class EnemyMeleeCollider : MonoBehaviour
     void Start()
     {
         Debug.Log("EnemyMeleeCollider origin Start:");
-        playerController = FindObjectOfType<Player>();
-       // characterstats = playerController.characterStats;
+        if (referMother.attacktarget)
+        {
+            playerController = referMother.attacktarget.GetComponent<Player>();
+        }
+        // characterstats = playerController.characterStats;
         playerdefense = playerController.Defense;
         //StartCoroutine(CalcFineStats());
 
@@ -45,7 +48,10 @@ public class EnemyMeleeCollider : MonoBehaviour
     private void OnEnable()
     {
         Debug.Log("EnemyMeleeCollider OnEnable:");
-        playerController = FindObjectOfType<Player>();
+        if (referMother.attacktarget)
+        {
+            playerController = referMother.attacktarget.GetComponent<Player>();
+        }      
         //characterstats = playerController.characterStats;
         playerdefense = playerController.Defense;
         /*playerai = FindObjectOfType<PlayerAI>();
@@ -54,6 +60,13 @@ public class EnemyMeleeCollider : MonoBehaviour
             playeraidefense = playerai.MotherDefense;
         }
         StartCoroutine(CalcFineStats());*/
+    }
+    private void Update()
+    {
+        if (referMother.attacktarget)
+        {
+            playerController = referMother.attacktarget.GetComponent<Player>();
+        }
     }
     private void OnDisable()
     {
@@ -69,7 +82,7 @@ public class EnemyMeleeCollider : MonoBehaviour
                 Debug.Log("EnemyMeleeColliderHit" + other.transform.name + "," + transform + "monsterdamage:" + attackDamage + ",플레이어방어력:" + playerdefense + ",적용데미지:" + (attackDamage - playerdefense));
                 //other.GetComponent<PlayerController>().TakeDamage(damage);
                 //playerController.TakeDamage(damage);
-                Player healthCom = playerController.GetComponent<Player>();
+                Player healthCom = playerController;
                 float takeDamage = attackDamage - playerdefense;
                 if (takeDamage <= 0)
                 {

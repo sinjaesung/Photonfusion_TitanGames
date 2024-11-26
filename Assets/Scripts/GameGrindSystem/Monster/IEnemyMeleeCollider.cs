@@ -18,10 +18,13 @@ public class IEnemyMeleeCollider : MonoBehaviour
     void Start()
     {
         Debug.Log("IEnemyMeleeCollider origin Start:");
-        playerController = FindObjectOfType<Player>();
+        if (referMother.attacktarget)
+        {
+            playerController = referMother.attacktarget.GetComponent<Player>();
+            playerdefense = playerController.Defense;
+        }
         //characterstats = playerController.characterStats;
-        playerdefense = playerController.Defense;
-       // StartCoroutine(CalcFineStats());
+        // StartCoroutine(CalcFineStats());
 
         if (GetComponent<AudioSource>() != null)
         {
@@ -49,15 +52,25 @@ public class IEnemyMeleeCollider : MonoBehaviour
     private void OnEnable()
     {
         Debug.Log("IEnemyMeleeCollider OnEnable:");
-        playerController = FindObjectOfType<Player>();
-        //characterstats = playerController.characterStats;
-        playerdefense = playerController.CurrentDefense;
-       /* playerai = FindObjectOfType<PlayerAI>();
-        if (playerai != null)
+        if (referMother.attacktarget)
         {
-            playeraidefense = playerai.MotherDefense;
+            playerController = referMother.attacktarget.GetComponent<Player>();
+            playerdefense = playerController.Defense;
         }
-        StartCoroutine(CalcFineStats());*/
+        //characterstats = playerController.characterStats;
+        /* playerai = FindObjectOfType<PlayerAI>();
+         if (playerai != null)
+         {
+             playeraidefense = playerai.MotherDefense;
+         }
+         StartCoroutine(CalcFineStats());*/
+    }
+    private void Update()
+    {
+        if (referMother.attacktarget)
+        {
+            playerController = referMother.attacktarget.GetComponent<Player>();
+        }
     }
     private void OnDisable()
     {
@@ -74,7 +87,7 @@ public class IEnemyMeleeCollider : MonoBehaviour
                     + attackDamage + ",플레이어방어력:" + playerdefense + ",적용데미지:" + (attackDamage - playerdefense));
                 //other.GetComponent<PlayerController>().TakeDamage(damage);
                 //playerController.TakeDamage(damage);
-                Player healthCom = playerController.GetComponent<Player>();
+                Player healthCom = playerController;
                 float takeDamage = attackDamage - playerdefense;
                 if (takeDamage <= 0)
                 {
