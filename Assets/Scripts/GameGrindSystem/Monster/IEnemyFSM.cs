@@ -327,7 +327,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
             UpdateAttackPlayer();
         }
 
-        yield return new WaitForSeconds(1f);//3초마다실행.
+        yield return new WaitForSeconds(6f);//6초마다실행.
 
         StartCoroutine(UpdateAttackTarget());
     }

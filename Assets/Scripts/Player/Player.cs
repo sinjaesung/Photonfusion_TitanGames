@@ -103,6 +103,8 @@ public class Player : PlayerComponent
     public float PrevDefense;
     [Networked]
     public NetworkBool IsDie { get; set; }
+    [Networked]
+    public string CharacterType { get; set; }
 
     //[Networked] public NetworkBool IsDriftingLeft { get; set; }
     //[Networked] public NetworkBool IsDriftingRight { get; set; }
@@ -123,6 +125,7 @@ public class Player : PlayerComponent
     public event Action<float> OnDefenseChanged;
     public event Action<bool> OnArrestChanged;
     public event Action<bool> OnDieChanged;
+    public event Action<string> OnCharTypeChanged;
    // public event Action<bool> OnHopChanged;
     //public event Action<bool> OnBackfireChanged;
 
@@ -153,6 +156,8 @@ public class Player : PlayerComponent
         changed.OnArrestChanged.Invoke(changed.IsArrested);
     private static void OnDieChangedCallback(Player changed) =>
         changed.OnDieChanged?.Invoke(changed.IsDie);
+    private static void OnCharTypeChangedCallback(Player changed) =>
+        changed.OnCharTypeChanged?.Invoke(changed.CharacterType);
 
     private void Awake()
     {
@@ -302,6 +307,12 @@ public class Player : PlayerComponent
                 {
                     Debug.Log("IsDie Changed>>");
                     OnDieChangedCallback(this);
+                    break;
+                }
+                case nameof(CharacterType):
+                {
+                    Debug.Log("CharacterType Changed>>");
+                    OnCharTypeChangedCallback(this);
                     break;
                 }
                 /*case nameof(BackfireTimer):

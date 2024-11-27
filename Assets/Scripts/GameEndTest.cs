@@ -39,9 +39,9 @@ public class GameEndTest : MonoBehaviour
             Singleton = null;
     }
 
-    public void EndingAction()
+    public void EndingAction(int result)
     {
-        Debug.Log("GameEndingAction MonoBehaviour>>");
+        Debug.Log("GameEndingAction MonoBehaviour>>"+ result);
         audiosource.Play();
         EndingObject.SetBool("EndAction",true);
     }

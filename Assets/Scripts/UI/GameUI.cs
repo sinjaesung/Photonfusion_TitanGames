@@ -24,6 +24,7 @@ public class GameUI : MonoBehaviour
     public Image boostBar;
     public Image HealthBar;
     public Text coinCount;
+    public Text CharTypeTxt;
     //public Text lapCount;
     //public Text raceTimeText;
     //public Text[] lapTimeTexts;
@@ -100,6 +101,13 @@ public class GameUI : MonoBehaviour
             Debug.Log("_OnCoinCountChanged>>" + count);
             coinCount.text = $"{count:00}";
         };
+
+        player_.Controller.OnCharTypeChanged += value =>
+        {
+            Debug.Log("OnCharTypeChanged>>" + value);
+            CharTypeTxt.text = $"{value}";
+        };
+        SetCharacterType(player_.Controller);
     }
 
     private void OnDestroy()
@@ -248,21 +256,25 @@ public class GameUI : MonoBehaviour
         coinCount.text = $"{count:00}";
     }
 
-  /*  private void SetLapCount(int lap, int maxLaps)
+    public void SetCharacterType(Player controller_)
     {
-        var text = $"{(lap > maxLaps ? maxLaps : lap)}/{maxLaps}";
-        lapCount.text = text;
+        CharTypeTxt.text = $"{controller_.CharacterType}";
     }
+    /*  private void SetLapCount(int lap, int maxLaps)
+      {
+          var text = $"{(lap > maxLaps ? maxLaps : lap)}/{maxLaps}";
+          lapCount.text = text;
+      }
 
-    public void SetRaceTimeText(float time)
-    {
-        raceTimeText.text = $"{(int)(time / 60):00}:{time % 60:00.000}";
-    }
+      public void SetRaceTimeText(float time)
+      {
+          raceTimeText.text = $"{(int)(time / 60):00}:{time % 60:00.000}";
+      }
 
-    public void SetLapTimeText(float time, int index)
-    {
-        lapTimeTexts[index].text = $"<color=#FFC600>L{index + 1}</color> {(int)(time / 60):00}:{time % 60:00.000}";
-    }*/
+      public void SetLapTimeText(float time, int index)
+      {
+          lapTimeTexts[index].text = $"<color=#FFC600>L{index + 1}</color> {(int)(time / 60):00}:{time % 60:00.000}";
+      }*/
 
     public void StartSpinItem()
     {

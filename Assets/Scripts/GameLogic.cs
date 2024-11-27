@@ -117,9 +117,9 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
             Debug.Log("GameLogic 모든 플레이어 시작영상 재생완료한 경우 q키>>");
             State = GameState.Playing;
         }
-        if (IsAllArrived())
+        if (IsAnyoneArrived())
         {
-            Debug.Log("GameLogic 모든 플레이어 다 도착점 완료한 경우>>");
+            Debug.Log("GameLogic 임의 플레이어 도착점 완료한 경우>>");
             UnreadyAll();
             State = GameState.Completed;
         }
@@ -145,6 +145,52 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         }
     }
 
+    public int CharacterEndingStatus()
+    {
+         bool isJackAlive = false;
+        int isFairyAliveCnt = 0;
+        foreach (KeyValuePair<PlayerRef, Player> player in Players)
+        {
+            if(player.Value.CharacterType == "Jack")
+            {
+                if (!player.Value.IsDie)
+                    isJackAlive = true;
+                else
+                    isJackAlive = false;
+            }
+            else
+            {
+                if (!player.Value.IsDie)
+                {
+                    isFairyAliveCnt++;
+                }
+            }
+        }
+
+        if(isJackAlive ==true && isFairyAliveCnt >= 3)
+        {
+            Debug.Log("모두 생존");
+            return 0;
+        }else if(isJackAlive==false && isFairyAliveCnt > 0)
+        {
+            Debug.Log("잭은 죽고,요정만 생존");
+            return 1;
+        }
+        else if(isJackAlive ==true && isFairyAliveCnt <= 0)
+        {
+            Debug.Log("잭만 생존");
+            return 2;
+        }
+        else if(isJackAlive==false && isFairyAliveCnt <= 0)
+        {
+            Debug.Log("모두 죽음");
+            return 3;
+        }
+        else
+        {
+            return 4;
+        }
+    }
     private void UnreadyAll()
     {
         foreach (KeyValuePair<PlayerRef, Player> player in Players)
@@ -165,15 +211,15 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         }
         return allRequested;
     }
-    private bool IsAllArrived()
+    private bool IsAnyoneArrived()
     {
-        bool allArrived = true;
+        bool AnyoneArrived = false;
         foreach (KeyValuePair<PlayerRef, Player> player in Players)
         {
-            if (!player.Value.IsArrive)
-                allArrived = false;
+            if (player.Value.IsArrive)
+                AnyoneArrived = true;
         }
-        return allArrived;
+        return AnyoneArrived;
     }
 
     private void GetNextSpawnpoint(float spacingAngle, out Vector3 position, out Quaternion rotation)
@@ -212,7 +258,7 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
                     //IsValid = true;
                     //random_indexUse = random_index;
                 }
-
+  
                 if (cnt >= safeCnt)
                 {
                     break;
@@ -226,6 +272,17 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
                 NetworkObject playerObject = Runner.Spawn(playerPrefabs[random_indexUse], position, rotation, player);
 
                 Players.Add(player, playerObject.GetComponent<Player>());
+
+                if(random_indexUse == 0)
+                {
+                    playerObject.GetComponent<Player>().CharacterType = "Jack";
+                }
+                else
+                {
+                    Debug.Log("Genie Character Spawn>>");
+                    playerObject.GetComponent<Player>().CharacterType = "Genie";
+                }
+
                 CharacterIndexes.Add(player, random_indexUse);
             }      
         }

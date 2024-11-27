@@ -37,8 +37,12 @@ public class UIManager : MonoBehaviour
     public Player LocalPlayer;
     public GameEndTest gameEndTest;
     public StartVideoTest startmediaTest;
+
+    GameLogic gamelogic;
     private void Awake()
     {
+        gamelogic = FindObjectOfType<GameLogic>();
+
         Singleton = this;
 
         grappleCD.value = 0f;
@@ -98,7 +102,8 @@ public class UIManager : MonoBehaviour
         {
             completeText.text = "Completed!";
 
-            gameEndTest.EndingAction();
+            int result = gamelogic.CharacterEndingStatus();
+            gameEndTest.EndingAction(result);
         }
 
         gameStateText.enabled = newState == GameState.Waiting;
