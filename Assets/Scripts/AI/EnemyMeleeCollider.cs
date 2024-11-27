@@ -20,9 +20,9 @@ public class EnemyMeleeCollider : MonoBehaviour
         if (referMother.attacktarget)
         {
             playerController = referMother.attacktarget.GetComponent<Player>();
+            playerdefense = playerController.Defense;
         }
         // characterstats = playerController.characterStats;
-        playerdefense = playerController.Defense;
         //StartCoroutine(CalcFineStats());
 
         if (GetComponent<AudioSource>() != null)
@@ -50,10 +50,10 @@ public class EnemyMeleeCollider : MonoBehaviour
         Debug.Log("EnemyMeleeCollider OnEnable:");
         if (referMother.attacktarget)
         {
-            playerController = referMother.attacktarget.GetComponent<Player>();
-        }      
+            playerController = referMother.attacktarget.GetComponent<Player>(); 
+            playerdefense = playerController.Defense;
+        }
         //characterstats = playerController.characterStats;
-        playerdefense = playerController.Defense;
         /*playerai = FindObjectOfType<PlayerAI>();
         if (playerai != null)
         {

@@ -57,6 +57,10 @@ public class EnemyFSM : MonoBehaviour, SEnemy
     public bool playerInshootingRadius;//공격범위내에있는지여부
 
     public Player targetHealth;
+
+    public float CalcTimer = 0;
+    public float AudioRate = 1;
+
     private void Awake()
     {
        // playerTransform = FindObjectOfType<Player>().transform;
@@ -213,13 +217,16 @@ public class EnemyFSM : MonoBehaviour, SEnemy
         int i = 0;
         while (i < hitColliders.Length)
         {
-            if (hitColliders[i].transform.tag == "Kart")//플레이어타깃
+            if (hitColliders[i].transform.tag == "Player")//플레이어타깃
             {
                 // Target = hitColliders[i].transform.gameObject;
-                Target = attacktarget.gameObject;
-                //Target = playerTransform.gameObject;//player캐릭터개체추적.
-                //attacktarget = Target.transform;
-                foundTarget = true;
+                if (attacktarget)
+                {
+                    Target = attacktarget.gameObject;
+                    //Target = playerTransform.gameObject;//player캐릭터개체추적.
+                    //attacktarget = Target.transform;
+                    foundTarget = true;
+                }
             }
             i++;
         }
@@ -272,7 +279,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
     }
     private IEnumerator UpdateAttackTarget()
     {
-        playerInshootingRadius = Physics.CheckSphere(transform.position, attackRange, PlayerLayer);
+        playerInshootingRadius = Physics.CheckSphere(transform.position, AggroAreaDistance, PlayerLayer);
 
         if (playerInshootingRadius)
         {
@@ -323,6 +330,17 @@ public class EnemyFSM : MonoBehaviour, SEnemy
                 if (targetHealth != null && targetHealth.Health > 0)
                 {
                     //LookRotationToTarget();
+                    CalcTimer += Time.deltaTime;
+                    if(CalcTimer > AudioRate)
+                    {
+                        Debug.Log("EnemyFSM 타깃 추적 추적사운드>>");
+                        AudioManager.PlayAndFollow("HugeManStamp", transform, AudioManager.MixerTarget.SFX);
+                        CalcTimer = 0;
+                    }
+                    else
+                    {
+                        Debug.Log("EnemyFSM 오디오 추적 타깃 사운드 쿨타임>>");
+                    }
 
                     navMeshAgent.speed = status.RunSpeed;
                     naviMeshSpeed = status.RunSpeed;
@@ -340,7 +358,7 @@ public class EnemyFSM : MonoBehaviour, SEnemy
     }
     private void UpdateAttackPlayer()//원거리Enemy용
     {
-        Collider[] Perceptiontargets = Physics.OverlapSphere(transform.position, attackRange, PlayerLayer);
+        Collider[] Perceptiontargets = Physics.OverlapSphere(transform.position, AggroAreaDistance, PlayerLayer);
         List<Collider> filterPerceptions = new List<Collider>();
         if (Perceptiontargets.Length > 0)
         {

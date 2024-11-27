@@ -36,8 +36,10 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target != null)
-            transform.SetPositionAndRotation(target.position+ followOffset, target.rotation);
+        if (target != null) { 
+            transform.SetPositionAndRotation(target.position+ followOffset, Quaternion.identity);
+        }
+
     }
 
     public void SetTarget(Transform newTarget)

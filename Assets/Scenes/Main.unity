@@ -3113,7 +3113,7 @@ PrefabInstance:
     - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
         type: 3}
       propertyPath: soundBank.kvps.Array.size
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
         type: 3}
@@ -3147,6 +3147,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
         type: 3}
+      propertyPath: soundBank.kvps.Array.data[20].Key
+      value: HugeManStamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
       propertyPath: soundBank.kvps.Array.data[14].Value
       value: 
       objectReference: {fileID: 8300000, guid: d188a47cfe5d7a84cb4dbae4e3a3cb45, type: 3}
@@ -3154,7 +3159,7 @@ PrefabInstance:
         type: 3}
       propertyPath: soundBank.kvps.Array.data[15].Value
       value: 
-      objectReference: {fileID: 8300000, guid: e07e0443836b2e94db370fad428031f0, type: 3}
+      objectReference: {fileID: 8300000, guid: 22d1cdf7965938b4ea490022c3c0c2de, type: 3}
     - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
         type: 3}
       propertyPath: soundBank.kvps.Array.data[16].Value
@@ -3175,6 +3180,11 @@ PrefabInstance:
       propertyPath: soundBank.kvps.Array.data[19].Value
       value: 
       objectReference: {fileID: 8300000, guid: d473431226308bf428d57f51f2e6a819, type: 3}
+    - target: {fileID: 3208467418379413596, guid: 6b7481398d71da0449637503aaea32bd,
+        type: 3}
+      propertyPath: soundBank.kvps.Array.data[20].Value
+      value: 
+      objectReference: {fileID: 8300000, guid: b3dca9946159f1647986b6eb25a4fd13, type: 3}
     - target: {fileID: 4497376138282162451, guid: 6b7481398d71da0449637503aaea32bd,
         type: 3}
       propertyPath: m_Name

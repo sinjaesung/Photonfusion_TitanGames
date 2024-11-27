@@ -16,7 +16,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     private Collider[] withinAggroColliders;
     [SerializeField] protected float AggroAreaDistance = 12f;
     [SerializeField] protected int DistanceSpawnPointReset = 30;
-    protected bool returningToPoint = false;
+    public bool returningToPoint = false;
     [SerializeField] protected Transform spawnPoint;
     protected float DistanceToPoint;
     [SerializeField] private float LeastDistance = 6.5f;
@@ -46,6 +46,8 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     public Vector3 AttackDirection;//공격방향 동적변경
     public bool playerInshootingRadius;//공격범위내에있는지여부
 
+    public float AudioRate = 1;
+    public float CalcTimer = 0;
     private void Awake()
     {
        // playerTransform = FindObjectOfType<Player>().transform;
@@ -284,6 +286,19 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
                 if (targetHealth != null && targetHealth.Health > 0)
                 {
                     LookRotationToTarget();
+                    CalcTimer += Time.deltaTime;
+                    //MonsterChase.Play();
+                    Debug.Log("CalcTimer" + (CalcTimer) + ">" + AudioRate);
+                    if (CalcTimer > AudioRate)
+                    {
+                        Debug.Log("IEnemyFSM 타깃 추적 추적사운드>>");
+                        AudioManager.PlayAndFollow("HugeManStamp", transform, AudioManager.MixerTarget.SFX);
+                        CalcTimer = 0;
+                    }
+                    else
+                    {
+                        Debug.Log("IEnemyFSM 오디오 추적 타깃 사운드 쿨타임>>");
+                    }
 
                     navAgent.speed = status.RunSpeed;
                     naviMeshSpeed = status.RunSpeed;
@@ -302,7 +317,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     }
     private IEnumerator UpdateAttackTarget()
     {
-        playerInshootingRadius = Physics.CheckSphere(transform.position, attackRange, PlayerLayer);
+        playerInshootingRadius = Physics.CheckSphere(transform.position, AggroAreaDistance, PlayerLayer);
 
         if (playerInshootingRadius)
         {
@@ -315,7 +330,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     }
     private void UpdateAttackPlayer()//원거리Enemy용
     {
-        Collider[] Perceptiontargets = Physics.OverlapSphere(transform.position, attackRange, PlayerLayer);
+        Collider[] Perceptiontargets = Physics.OverlapSphere(transform.position, AggroAreaDistance, PlayerLayer);
         List<Collider> filterPerceptions = new List<Collider>();
         if (Perceptiontargets.Length > 0)
         {

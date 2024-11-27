@@ -225,7 +225,7 @@ public class Player : PlayerComponent
                 CheckBoostPower(input);
 
                 kcc.AddLookRotation(input.LookDelta * lookSensitivity, -maxPitch, maxPitch);
-                UpdateCamTarget();
+                //UpdateCamTarget();
 
                 if (input.Buttons.WasPressed(PreviousButtons, InputButton.Grapple))
                     TryGrapple(camTarget.forward);
@@ -326,7 +326,7 @@ public class Player : PlayerComponent
             kcc.SetLookRotation(predictedLookRotation);
         }
 
-        UpdateCamTarget();
+        //UpdateCamTarget();
     }
     private void UseItems(NetInput inputs)
     {
@@ -694,7 +694,7 @@ public class Player : PlayerComponent
 
     private void UpdateCamTarget()
     {
-        camTarget.localRotation = Quaternion.Euler(kcc.GetLookRotation().x, 0f, 0f);
+        //camTarget.localRotation = Quaternion.Euler(kcc.GetLookRotation().x, 0f, 0f);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.InputAuthority | RpcTargets.StateAuthority)]
