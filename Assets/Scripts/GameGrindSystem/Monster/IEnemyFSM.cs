@@ -72,7 +72,10 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
             colliderTarget.referMother = this;
         }
     }
-
+    public void StartPosSetup(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();

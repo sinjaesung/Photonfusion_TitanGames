@@ -19,7 +19,7 @@ public class Player : PlayerComponent
     [SerializeField] private float doubleJumpMultiplier = 0.75f;
     [SerializeField] private float grappleCD = 2f;
     [SerializeField] private float glideCD = 20f;
-    [SerializeField] private float doubleJumpCD = 5f;
+    [SerializeField] private float doubleJumpCD = 1.2f;
     [SerializeField] private float grappleStrength = 12f;
     [SerializeField] private float maxGlideTime = 2f;
     [field: SerializeField] public float AbilityRange { get; private set; } = 25f;
@@ -662,8 +662,8 @@ public class Player : PlayerComponent
             if (BoostTierIndex > 0)
             {
                 LastMoveDirection += new Vector3(0, 6, 0);
-                Debug.Log("CheckBoostPower Input F Key>>" + BoostTierIndex + "|" + (LastMoveDirection * 6));
-                kcc.Jump(LastMoveDirection * 6);
+                Debug.Log("CheckBoostPower Input F Key>>" + BoostTierIndex + "|" + (LastMoveDirection * 1.2f));
+                kcc.Jump(LastMoveDirection * 1.2f);
             }
         }
     }

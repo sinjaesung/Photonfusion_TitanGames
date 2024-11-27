@@ -136,7 +136,7 @@ MonoBehaviour:
     _value: 0
   collider: {fileID: 7821478389211627262}
   enableDelay: 0.5
-  DefensePower: 20
+  DefensePower: 800
 --- !u!1 &2829770828623646494
 GameObject:
   m_ObjectHideFlags: 0

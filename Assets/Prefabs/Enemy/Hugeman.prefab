@@ -149,17 +149,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 88519d3d478fbb84b8381032f32d0dff,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -36.919952
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 88519d3d478fbb84b8381032f32d0dff,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000038146973
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 88519d3d478fbb84b8381032f32d0dff,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 54.24382
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 88519d3d478fbb84b8381032f32d0dff,
         type: 3}
@@ -408,9 +408,7 @@ MonoBehaviour:
     m_Bits: 720
   AttackDirection: {x: 0, y: 0, z: 0}
   playerInshootingRadius: 0
-  MonsterChase: {fileID: 0}
   AudioRate: 1
-  LastAudioTime: 0
   CalcTimer: 0
 --- !u!82 &5227880487872696623
 AudioSource:

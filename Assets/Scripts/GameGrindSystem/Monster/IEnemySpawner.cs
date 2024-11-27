@@ -70,7 +70,8 @@ public class IEnemySpawner : MonoBehaviour
             IEnemy instance = monsterPrefab.transform.GetComponent<IEnemy>();
             instance.Spawner = this;
             monsterPrefab.GetComponent<IEnemyFSM>().Setup(this);
-
+            Debug.Log("해당 몬스터 IEnemyFSM 해당 위치로 Warp>>" + transform.position);
+            monsterPrefab.GetComponent<IEnemyFSM>().StartPosSetup(transform.position);
             spawning = false;
         }
     }
