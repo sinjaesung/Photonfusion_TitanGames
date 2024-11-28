@@ -22,11 +22,11 @@ namespace Fusion.Menu {
     }
 
     public void OnResolutionChanged() {
-      CalculateAspect();
+      //CalculateAspect();
     }
 
     public void Start() {
-      CalculateAspect();
+     // CalculateAspect();
     }
 
     public void Update() {
@@ -34,7 +34,7 @@ namespace Fusion.Menu {
           _resolution.y != _parentTransform.rect.height) {
         _resolution.x = _parentTransform.rect.width;
         _resolution.y = _parentTransform.rect.height;
-        CalculateAspect();
+        //CalculateAspect();
       }
     }
 
