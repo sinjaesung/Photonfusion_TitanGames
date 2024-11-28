@@ -114,7 +114,7 @@ public class Player : PlayerComponent
     //[Networked]
     // public TickTimer HopTimer { get; set; }
     [Networked] public float AppliedSpeed { get; set; } = 0;
-
+    public float rotationSpeed = 10f;
     //[Networked] private KartInput.NetworkInputData kartInputs { get; set; }
     public Vector3 LastMoveDirection;
 
@@ -229,7 +229,7 @@ public class Player : PlayerComponent
                 CheckJump(input);
                 CheckBoostPower(input);
 
-                kcc.AddLookRotation(input.LookDelta * lookSensitivity, -maxPitch, maxPitch);
+                //kcc.AddLookRotation(input.LookDelta * lookSensitivity, -maxPitch, maxPitch);
                 //UpdateCamTarget();
 
                 if (input.Buttons.WasPressed(PreviousButtons, InputButton.Grapple))
@@ -334,7 +334,7 @@ public class Player : PlayerComponent
         if (kcc.Settings.ForcePredictedLookRotation)
         {
             Vector2 predictedLookRotation = baseLookRotation + inputManager.AccumulatedMouseDelta * lookSensitivity;
-            kcc.SetLookRotation(predictedLookRotation);
+            //kcc.SetLookRotation(predictedLookRotation);
         }
 
         //UpdateCamTarget();
@@ -695,12 +695,25 @@ public class Player : PlayerComponent
         if (IsGliding)
         {
             GlideCharge = Mathf.Max(0f, GlideCharge - glideDrain);
-            worldDirection = kcc.Data.TransformDirection;
+            // worldDirection = kcc.Data.TransformDirection;
+            worldDirection = input.Direction.X0Y();
         }
         else
-            worldDirection = kcc.FixedData.TransformRotation * input.Direction.X0Y();
+        {
+            //worldDirection = kcc.FixedData.TransformRotation * input.Direction.X0Y();
+            worldDirection = input.Direction.X0Y();
+        }
         Debug.Log("Player SetInputDirection AppliedSpeed>>" + AppliedSpeed_);
         Debug.Log("Player SetInputDirection>>" + worldDirection * AppliedSpeed_);
+
+        //Rotate the player to face the direction of movement
+        //Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
+        //Debug.Log("toRotation>>"+toRotation);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+
+        Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
+        kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
+
         if (AppliedSpeed_ != 0)
             kcc.SetInputDirection(worldDirection, false);
         else
