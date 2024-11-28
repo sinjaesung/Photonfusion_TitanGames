@@ -20,6 +20,7 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
 
     [Networked] private Player Winner { get; set; }
     [Networked, OnChangedRender(nameof(GameStateChanged))] private GameState State { get; set; }
+    public GameState gameState => State;
     [Networked, Capacity(12)] private NetworkDictionary<PlayerRef, Player> Players => default;
     [Networked, Capacity(12)] private NetworkDictionary<PlayerRef, int> CharacterIndexes => default;
     public NetworkBehaviour gamemanager;
@@ -27,6 +28,9 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
     public PlayerSpawner CharacterSpawner;
 
     public bool isSpawned = false;
+
+    public bool IsJackAlive = false;
+    public int isFairyAliveCnt = 0;
     void Start()
     {
         CharacterSpawner = FindObjectOfType<PlayerSpawner>();
@@ -123,6 +127,11 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
             UnreadyAll();
             State = GameState.Completed;
         }
+        if (IsAllDied())
+        {
+            State = GameState.Completed;
+            CharacterEndingStatus();
+        }
 
         if (State == GameState.Playing && !Runner.IsResimulation)
             UIManager.Singleton.UpdateLeaderboard(Players.OrderByDescending(p => p.Value.Score).ToArray());
@@ -147,16 +156,14 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
 
     public int CharacterEndingStatus()
     {
-         bool isJackAlive = false;
-        int isFairyAliveCnt = 0;
         foreach (KeyValuePair<PlayerRef, Player> player in Players)
         {
             if(player.Value.CharacterType == "Jack")
             {
                 if (!player.Value.IsDie)
-                    isJackAlive = true;
+                    IsJackAlive = true;
                 else
-                    isJackAlive = false;
+                    IsJackAlive = false;
             }
             else
             {
@@ -166,30 +173,32 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
                 }
             }
         }
-
-        if(isJackAlive ==true && isFairyAliveCnt >= 3)
+        Debug.Log("CharacterEndingStatus>>");
+        Debug.Log("isJackAlive,isFairyAliveCnt>" + IsJackAlive + "," + isFairyAliveCnt);
+        if(IsJackAlive == true && isFairyAliveCnt >= 3)
         {
             Debug.Log("모두 생존");
             return 0;
-        }else if(isJackAlive==false && isFairyAliveCnt > 0)
+        }else if(IsJackAlive == true && (0 <isFairyAliveCnt && isFairyAliveCnt <= 2)){
+            Debug.Log("잭은 생존,요정 일부만 생존");
+            return 1;
+        } 
+        else if(IsJackAlive == false && isFairyAliveCnt >0)
         {
             Debug.Log("잭은 죽고,요정만 생존");
-            return 1;
-        }
-        else if(isJackAlive ==true && isFairyAliveCnt <= 0)
-        {
-            Debug.Log("잭만 생존");
             return 2;
         }
-        else if(isJackAlive==false && isFairyAliveCnt <= 0)
+        else if(IsJackAlive == true && isFairyAliveCnt <= 0)
         {
-            Debug.Log("모두 죽음");
+            Debug.Log("잭만 생존");
             return 3;
         }
-        else
+        else if(IsJackAlive == false && isFairyAliveCnt <= 0)
         {
+            Debug.Log("모두 죽음");
             return 4;
         }
+        return 5;
     }
     private void UnreadyAll()
     {
@@ -220,6 +229,16 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
                 AnyoneArrived = true;
         }
         return AnyoneArrived;
+    }
+    private bool IsAllDied()
+    {
+        Debug.Log("모든 캐릭터가 죽은경우>>");
+        bool AllDied = true;
+        foreach(KeyValuePair<PlayerRef,Player> player in Players){
+            if (!player.Value.IsDie)
+                AllDied = false;
+        }
+        return AllDied;
     }
 
     private void GetNextSpawnpoint(float spacingAngle, out Vector3 position, out Quaternion rotation)

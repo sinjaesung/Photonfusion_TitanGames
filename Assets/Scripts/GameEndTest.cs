@@ -27,10 +27,15 @@ public class GameEndTest : MonoBehaviour
 
     [SerializeField] private Animator EndingObject;
     [SerializeField] AudioSource audiosource;
-   
+    [SerializeField] private EndVideoTest EndvideoTest;
+    public UIManager uimanager;
     private void Awake()
     {
         Singleton = this;
+    }
+    private void Update()
+    {
+        uimanager = FindObjectOfType<UIManager>();
     }
 
     private void OnDestroy()
@@ -43,6 +48,38 @@ public class GameEndTest : MonoBehaviour
     {
         Debug.Log("GameEndingAction MonoBehaviour>>"+ result);
         audiosource.Play();
+
+        if(result == 0)
+        {
+            Debug.Log("GameEndingAction End Result 0>>");
+            uimanager.CompleteMissionTextStatus("All Alive");
+            EndvideoTest.SetEnding(0);
+        }
+        else if(result == 1)
+        {
+            Debug.Log("GameEndingAction End Result 1>>");
+            uimanager.CompleteMissionTextStatus("Jack Alive,genie part Alive");
+            EndvideoTest.SetEnding(1);
+        }
+        else if (result == 2)
+        {
+            Debug.Log("GameEndingAction End Result 2>>");
+            uimanager.CompleteMissionTextStatus("Jack Died,genie all Alive");
+            EndvideoTest.SetEnding(2);
+        }
+        else if (result == 3)
+        {         
+            Debug.Log("GameEndingAction End Result 3>>");
+            uimanager.CompleteMissionTextStatus("Only Jack Alive");
+            EndvideoTest.SetEnding(3);
+        }
+        else if (result == 4)
+        {       
+            Debug.Log("GameEndingAction End Result 4>>");
+            uimanager.CompleteMissionTextStatus("All Die");
+            EndvideoTest.SetEnding(4);
+        }
+        
         EndingObject.SetBool("EndAction",true);
     }
 }

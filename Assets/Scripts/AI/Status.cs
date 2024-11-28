@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Fusion;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
 public class HPEvent : UnityEngine.Events.UnityEvent<int, int> { }
 
-public class Status : MonoBehaviour
+public class Status : NetworkBehaviour
 {
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();

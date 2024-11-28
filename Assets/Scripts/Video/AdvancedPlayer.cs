@@ -13,7 +13,6 @@ public class AdvancedPlayer : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [SerializeField] private RectTransform rtWindow;
 
-
     [Header("Information")]
     [SerializeField] private Vector2 prevWindowSize = new Vector2(0, 0);
     [SerializeField] private Vector2 prevWindowSize2 = Vector2.zero;
@@ -72,7 +71,11 @@ public class AdvancedPlayer : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         rtWindow.offsetMin = new Vector2(0, 0);
         rtWindow.offsetMax = new Vector2(0, 0);
     }
-
+    public void SetVideoPlayer(int ending)
+    {
+        Debug.Log("SetVideoPlayer" + videoPlayer.transform.name + "," + videoPlayer.clip.name);
+        videoPlayer.Play();
+    }
     public void SetPlayEvent()
     {
         Debug.Log("Àç»ý");

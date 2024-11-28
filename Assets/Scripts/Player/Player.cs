@@ -370,6 +370,12 @@ public class Player : PlayerComponent
     }
     public void UpdateHealth(float health_)
     {
+        /*if (!HasInputAuthority)
+        {
+            return;
+        }*/
+        Debug.Log("Player UpdateHealth>>");
+
         if(health_ > 0)
         {
             var damage = health_ - Defense;

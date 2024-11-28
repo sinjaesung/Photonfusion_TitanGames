@@ -48,6 +48,8 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
 
     public float AudioRate = 1;
     public float CalcTimer = 0;
+
+    public GameLogic gamelogic;
     private void Awake()
     {
        // playerTransform = FindObjectOfType<Player>().transform;
@@ -79,6 +81,7 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
+        gamelogic = FindObjectOfType<GameLogic>();
     }
     public virtual void Setup(IEnemySpawner enemyMemoryPool)
     {
@@ -145,6 +148,8 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
     }
     void FixedUpdate()
     {
+        gamelogic = FindObjectOfType<GameLogic>();
+
         if (transform.position.y <= -999)
         {
             Debug.Log("IEnemyFsm 현재 transformY위치가 -999이하로 터무니없이 작게 나오면 자신삭제" + gameObject);
@@ -157,8 +162,16 @@ public class IEnemyFSM : MonoBehaviour, IEnemy
             enemyMemoryPool.DeactivateEnemy(gameObject);
         }
 
-        //Experience = experienceCond;
 
+        //Experience = experienceCond;
+        if (gamelogic)
+        {
+            if(gamelogic.gameState == GameState.Completed)
+            {
+                Debug.Log("GameState Completed 상태라면 활동중지>>");
+                return;
+            }
+        }
         withinAggroColliders = Physics.OverlapSphere(transform.position, AggroAreaDistance, aggroLayerMask);
         if (withinAggroColliders.Length > 0)
         {

@@ -15,8 +15,11 @@ public class IEnemyMeleeCollider : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public GameLogic gamelogic;
     void Start()
     {
+        gamelogic = FindObjectOfType<GameLogic>();
+
         Debug.Log("IEnemyMeleeCollider origin Start:");
         if (referMother.attacktarget)
         {
@@ -67,6 +70,16 @@ public class IEnemyMeleeCollider : MonoBehaviour
     }
     private void Update()
     {
+        gamelogic = FindObjectOfType<GameLogic>();
+        if (gamelogic)
+        {
+            if (gamelogic.gameState == GameState.Completed)
+            {
+                Debug.Log("IEnemyMeleeCollider GameState Completed 상태라면 활동중지>>");
+                return;
+            }
+        }
+       
         if (referMother.attacktarget)
         {
             playerController = referMother.attacktarget.GetComponent<Player>();
@@ -79,6 +92,14 @@ public class IEnemyMeleeCollider : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (gamelogic)
+        {
+            if (gamelogic.gameState == GameState.Completed)
+            {
+                Debug.Log("GameState Completed 상태라면 활동중지>>");
+                return;
+            }
+        }
         if (other != null)
         {
             if (other.CompareTag("Player") && referMother.attacking == true)

@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameStateText;
     [SerializeField] private TextMeshProUGUI instructionText;
     [SerializeField] private TextMeshProUGUI completeText;
+    [SerializeField] private TextMeshProUGUI completeMissionText;
     [SerializeField] private Slider grappleCD;
     [SerializeField] private Slider glideCD;
     [SerializeField] private Image glideActive;
@@ -38,7 +39,7 @@ public class UIManager : MonoBehaviour
     public GameEndTest gameEndTest;
     public StartVideoTest startmediaTest;
 
-    GameLogic gamelogic;
+    public GameLogic gamelogic;
     private void Awake()
     {
         gamelogic = FindObjectOfType<GameLogic>();
@@ -52,6 +53,8 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        gamelogic = FindObjectOfType<GameLogic>();
+
         gameEndTest = FindObjectOfType<GameEndTest>();
         startmediaTest = FindObjectOfType<StartVideoTest>();
 
@@ -63,6 +66,12 @@ public class UIManager : MonoBehaviour
 
         glideActive.enabled = LocalPlayer.IsGliding;
         glideCD.value = LocalPlayer.IsGliding ? LocalPlayer.GlideCharge : LocalPlayer.GlideCDFactor;
+    }
+
+    public void CompleteMissionTextStatus(string txt)
+    {
+        Debug.Log("CompleteMissionTextStatus>>" + txt);
+        completeMissionText.text = txt;
     }
 
     private void OnDestroy()
@@ -103,6 +112,7 @@ public class UIManager : MonoBehaviour
             completeText.text = "Completed!";
 
             int result = gamelogic.CharacterEndingStatus();
+            Debug.Log("UiManager Completed Result>>" + result);
             gameEndTest.EndingAction(result);
         }
 
