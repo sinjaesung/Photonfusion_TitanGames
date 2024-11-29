@@ -25,7 +25,8 @@ public class UIManager : MonoBehaviour
     }
     private static UIManager _singleton;
 
-    [SerializeField] private TextMeshProUGUI gameStateText;
+    //[SerializeField] private TextMeshProUGUI gameStateText;
+    [SerializeField] public GameObject instructionTextWrap;
     [SerializeField] private TextMeshProUGUI instructionText;
     [SerializeField] private TextMeshProUGUI completeText;
     [SerializeField] private TextMeshProUGUI completeMissionText;
@@ -107,12 +108,14 @@ public class UIManager : MonoBehaviour
         {
             if (winner == null)
             {
-                gameStateText.text = "Waiting to Start";
+                Debug.Log("SetWait WaitingMode");
+               // gameStateText.text = "Waiting to Start";
                 instructionText.text = "Press R when you're ready to begin!";
             }
             else
             {
-                gameStateText.text = $"{winner.Name} Wins";
+                Debug.Log("SetWait WaitingMode");
+                // gameStateText.text = $"{winner.Name} Wins";
                 instructionText.text = "Press R when you're ready to play again!";
             }
         }else if(newState == GameState.MediaPlaying)
@@ -131,7 +134,7 @@ public class UIManager : MonoBehaviour
             gameEndTest.EndingAction(result);
         }
 
-        gameStateText.enabled = newState == GameState.Waiting;
+        //gameStateText.enabled = newState == GameState.Waiting;
         instructionText.enabled = newState == GameState.Waiting;
         completeText.enabled = newState == GameState.Completed;
     }

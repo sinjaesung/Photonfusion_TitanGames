@@ -36,9 +36,9 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        var targetRotation = target.rotation;
-        targetRotation.x = 0; targetRotation.z = 0;
-        Debug.Log("CameraFollow targetRotation>>" + targetRotation);
+        //var targetRotation = target.rotation;
+        //targetRotation.x = 0; targetRotation.z = 0;
+        //Debug.Log("CameraFollow targetRotation>>" + targetRotation);
 
         if (target != null)
         {
@@ -49,6 +49,7 @@ public class CameraFollow : MonoBehaviour
 
     public void SetTarget(Transform newTarget)
     {
+        Debug.Log("CameraFollow SetTarget>>" + newTarget);
         target = newTarget;
     }
 }

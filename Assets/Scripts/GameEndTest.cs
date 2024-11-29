@@ -73,12 +73,12 @@ public class GameEndTest : MonoBehaviour
             uimanager.CompleteMissionTextStatus("Only Jack Alive");
             EndvideoTest.SetEnding(3);
         }
-        else if (result == 4)
+       /* else if (result == 4)
         {       
             Debug.Log("GameEndingAction End Result 4>>");
             uimanager.CompleteMissionTextStatus("All Die");
             EndvideoTest.SetEnding(4);
-        }
+        }*/
         
         EndingObject.SetBool("EndAction",true);
     }

@@ -31,6 +31,10 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
 
     public bool IsJackAlive = false;
     public int isFairyAliveCnt = 0;
+
+    public GamePlayStartCollider colliderStart;
+    public GameObject[] NetworkSpawnerList;
+    public bool IsMonsterSpawn = false;
     void Start()
     {
         CharacterSpawner = FindObjectOfType<PlayerSpawner>();
@@ -40,6 +44,11 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         Debug.Log("NetworkBehaviour StartSceneMenu CharacterSubmit CharacterSpawner.StartSpawn" + CharacterSpawner);
 
         //Invoke(nameof(SetUpStart), 0.8f);
+        for (int e = 0; e < NetworkSpawnerList.Length; e++)
+        {
+            var Spawner_Item = NetworkSpawnerList[e];
+            Spawner_Item.SetActive(false);
+        }
     }
     /*public void SetUpStart()
     {
@@ -97,6 +106,7 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         if (Players.Count < 1)
             return;
 
+        Debug.Log("GameState>>" + State);
         if (Runner.IsServer && State == GameState.Waiting)
         {
             bool areAllReady = true;
@@ -116,12 +126,35 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
                 //Waiting->MediaPlaying
                //PreparePlayers();
             }
+
+            UIManager.Singleton.instructionTextWrap.SetActive(true);
+        }
+        else if(State != GameState.Waiting)
+        {
+            UIManager.Singleton.instructionTextWrap.SetActive(false);
         }
 
         if (IsAllStartRequested())
         {
             Debug.Log("GameLogic 모든 플레이어 시작영상 재생완료한 경우 q키>>");
             State = GameState.Playing;
+        }
+        if (colliderStart.IsCollide)
+        {
+            if (State == GameState.Playing)
+            {
+                if (!IsMonsterSpawn)
+                {
+                    Debug.Log("임의 플레이어가 시작골대에 닿은 경우에만 한차례 한해서 거인요소 스포너 생성>>");
+
+                    for (int e = 0; e < NetworkSpawnerList.Length; e++)
+                    {
+                        var Spawner_Item = NetworkSpawnerList[e];
+                        Spawner_Item.SetActive(true);
+                    }
+                }
+                IsMonsterSpawn = true;
+            }
         }
         if (IsAnyoneArrived())
         {
@@ -132,7 +165,7 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         if (IsAllDied())
         {
             State = GameState.Completed;
-            CharacterEndingStatus();
+            //CharacterEndingStatus();
 
             UIManager.Singleton.CallGameMenu(true);
         }
@@ -200,9 +233,9 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         else if(IsJackAlive == false && isFairyAliveCnt <= 0)
         {
             Debug.Log("모두 죽음");
-            return 4;
+            return 8;
         }
-        return 5;
+        return 8;
     }
     private void UnreadyAll()
     {
