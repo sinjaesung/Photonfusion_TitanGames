@@ -70,6 +70,8 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
     }
     public override void Spawned()
     {
+        UIManager.Singleton.CallGameMenu(false);
+
         Winner = null;
         State = GameState.Waiting;
         UIManager.Singleton.SetWaitUI(State, Winner);
@@ -131,6 +133,8 @@ public class GameLogic : NetworkBehaviour, IPlayerLeft,IPlayerJoined
         {
             State = GameState.Completed;
             CharacterEndingStatus();
+
+            UIManager.Singleton.CallGameMenu(true);
         }
 
         if (State == GameState.Playing && !Runner.IsResimulation)

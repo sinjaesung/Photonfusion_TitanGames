@@ -40,6 +40,9 @@ public class UIManager : MonoBehaviour
     public StartVideoTest startmediaTest;
 
     public GameLogic gamelogic;
+    public GameObject GameMenuObj;
+    public bool GameMenuOn = false;
+
     private void Awake()
     {
         gamelogic = FindObjectOfType<GameLogic>();
@@ -50,7 +53,19 @@ public class UIManager : MonoBehaviour
         glideCD.value = 0f;
         doubleJumpCD.value = 0f;
     }
-
+    public void CallGameMenu(bool _val)
+    {
+        if (_val==true)//false->true
+        {
+            GameMenuObj.SetActive(true);
+            GameMenuOn = true;
+        }
+        else if(_val==false)//true ->false
+        {
+            GameMenuObj.SetActive(false);
+            GameMenuOn = false;
+        }
+    }
     private void Update()
     {
         gamelogic = FindObjectOfType<GameLogic>();
@@ -109,7 +124,7 @@ public class UIManager : MonoBehaviour
         }
         else if (newState == GameState.Completed)
         {
-            completeText.text = "Completed!";
+            completeText.text = "GameEnd";
 
             int result = gamelogic.CharacterEndingStatus();
             Debug.Log("UiManager Completed Result>>" + result);

@@ -18,6 +18,7 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
     private bool resetInput;
     public Keyboard keyboard = Keyboard.current;
 
+    public bool menutoggle = false;
     private void OnDestroy()
     {
         DisposeInputs();
@@ -76,6 +77,18 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
             if(keyboard.qKey.wasPressedThisFrame && LocalPlayer != null)
             {
                 LocalPlayer.RPC_SetStart();
+            }
+
+            if(keyboard.xKey.wasPressedThisFrame && LocalPlayer != null)
+            {
+                if (!UIManager.Singleton.GameMenuOn)
+                {
+                    UIManager.Singleton.CallGameMenu(true);
+                }
+                else
+                {
+                    UIManager.Singleton.CallGameMenu(false);
+                }
             }
 
             Vector2 moveDirection = Vector2.zero;

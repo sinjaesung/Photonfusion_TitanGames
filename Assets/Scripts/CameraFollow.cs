@@ -41,7 +41,10 @@ public class CameraFollow : MonoBehaviour
         Debug.Log("CameraFollow targetRotation>>" + targetRotation);
 
         if (target != null)
-            transform.SetPositionAndRotation(target.position+ followOffset, Quaternion.identity);
+        {
+             transform.SetPositionAndRotation(target.position + followOffset, Quaternion.identity);
+            //transform.SetPositionAndRotation(target.position + followOffset, Quaternion.Euler(new Vector3(-1, 0, -1)));
+        }
     }
 
     public void SetTarget(Transform newTarget)
