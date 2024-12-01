@@ -169,6 +169,9 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
+        Debug.Log("게임 리스타트>>");
+        Destroy(FindObjectOfType<GameUI>().gameObject);
+
         if (shutdownReason == ShutdownReason.DisconnectedByPluginLogic)
         {
             await FindFirstObjectByType<MenuConnectionBehaviour>(FindObjectsInactive.Include).DisconnectAsync(ConnectFailReason.Disconnect);
