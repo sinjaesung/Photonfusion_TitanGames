@@ -159,6 +159,18 @@ public class Player : PlayerComponent
     private static void OnCharTypeChangedCallback(Player changed) =>
         changed.OnCharTypeChanged?.Invoke(changed.CharacterType);
 
+    [HideInInspector]
+    public bool steer, autoRun;
+    public LayerMask groundMask;
+
+    [HideInInspector]
+    public CameraFollow mainCam;
+
+    public NetInput NetInput;
+
+    public float rotation;
+
+
     private void Awake()
     {
         collider = GetComponent<SphereCollider>();
@@ -201,9 +213,9 @@ public class Player : PlayerComponent
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-
         if (GetInput(out NetInput input))
         {
+            NetInput = input;
             if (CanDrive)
             {
                 if (input.Buttons.IsSet(InputButton.W) || input.Buttons.IsSet(InputButton.S)
@@ -258,6 +270,9 @@ public class Player : PlayerComponent
                 Debug.Log("조작 제한>>");
                 SetInputDirection(input,0);
             }
+
+            if (steer)
+                rotation = inputManager.MouseX * mainCam.CameraSpeed;
         }
     }
 
@@ -711,8 +726,8 @@ public class Player : PlayerComponent
         //Debug.Log("toRotation>>"+toRotation);
         //transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
-        Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
-        kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
+        //Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
+        //kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
 
         if (AppliedSpeed_ != 0)
             kcc.SetInputDirection(worldDirection, false);
@@ -721,7 +736,6 @@ public class Player : PlayerComponent
 
         LastMoveDirection = worldDirection * AppliedSpeed_;
     }
-
     private void UpdateCamTarget()
     {
         //camTarget.localRotation = Quaternion.Euler(kcc.GetLookRotation().x, 0f, 0f);

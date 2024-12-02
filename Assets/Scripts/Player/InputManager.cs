@@ -19,6 +19,21 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
     public Keyboard keyboard = Keyboard.current;
 
     public bool menutoggle = false;
+
+    // Store the mouse scroll delta
+    private float _scrollWheelDelta;
+
+    // Public property to access the scroll wheel delta
+    public float ScrollWheelDelta => _scrollWheelDelta;
+    public bool IsLeftMouseButtonDown => _isLeftMouseButtonDown;
+
+    // Store the left mouse button click state
+    private bool _isLeftMouseButtonDown;
+    public bool IsRightMouseButtonDown => _isRightMouseButtonDown;
+    private bool _isRightMouseButtonDown;
+
+    public float MouseX => Input.GetAxis("Mouse X");
+
     private void OnDestroy()
     {
         DisposeInputs();
@@ -43,7 +58,7 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         keyboard = Keyboard.current;
         if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame || keyboard.escapeKey.wasPressedThisFrame))
         {
-            if (Cursor.lockState == CursorLockMode.Locked)
+            /*if (Cursor.lockState == CursorLockMode.Locked)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -52,12 +67,12 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-            }
+            }*/
         }
 
         // Accumulate input only if the cursor is locked.
-        if (Cursor.lockState != CursorLockMode.Locked)
-            return;
+       /* if (Cursor.lockState != CursorLockMode.Locked)
+            return;*/
 
         NetworkButtons buttons = default;
 
@@ -114,6 +129,14 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         }
 
         accumulatedInput.Buttons = new NetworkButtons(accumulatedInput.Buttons.Bits | buttons.Bits);
+
+        _scrollWheelDelta = Input.GetAxis("Mouse ScrollWheel");
+
+        // Capture left mouse button click state
+        _isLeftMouseButtonDown = Input.GetMouseButton(0); // 0 indicates the left mouse button
+
+        // Capture right mouse button click state
+        _isRightMouseButtonDown = Input.GetMouseButton(1); // 1 indicates the right mouse button
     }
 
     void INetworkRunnerCallbacks.OnConnectedToServer(NetworkRunner runner) { }
@@ -147,8 +170,8 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
     {
         if (player == runner.LocalPlayer)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+           // Cursor.lockState = CursorLockMode.Locked;
+           // Cursor.visible = false;
         }
     }
 
