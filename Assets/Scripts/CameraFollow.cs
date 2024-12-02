@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cinemachine;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -42,8 +43,15 @@ public class CameraFollow : MonoBehaviour
 
         if (target != null)
         {
-             transform.SetPositionAndRotation(target.position + followOffset, Quaternion.identity);
+            transform.SetPositionAndRotation(target.position + followOffset, Quaternion.identity);
             //transform.SetPositionAndRotation(target.position + followOffset, Quaternion.Euler(new Vector3(-1, 0, -1)));
+            //CinemachineFreeLook cinemachine = GetComponent<CinemachineFreeLook>();
+            //cinemachine.Follow = target;
+            //cinemachine.LookAt = target;
+            //CinemachineVirtualCamera followCam = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
+            //Debug.Log("followCam>>" + followCam.transform.name);
+            //followCam.Follow = target;
+            //followCam.LookAt = target;
         }
     }
 

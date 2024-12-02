@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2662773668074141739}
   - component: {fileID: 4922369096184242041}
   - component: {fileID: 8288922760068253439}
-  - component: {fileID: 6257053319506022051}
   - component: {fileID: 8301549524980892904}
   m_Layer: 0
   m_Name: Health
@@ -121,20 +120,6 @@ MonoBehaviour:
   SyncParent: 1
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
---- !u!114 &6257053319506022051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 442771503724999700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 31fba42c81961b24c8316c3486a96d1d
 --- !u!114 &8301549524980892904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +136,7 @@ MonoBehaviour:
     _value: 0
   collider: {fileID: 4289286059750463403}
   enableDelay: 0.5
-  ReduceAmount: -10
+  ReduceAmount: -8000
 --- !u!1 &4883393185831330359
 GameObject:
   m_ObjectHideFlags: 0

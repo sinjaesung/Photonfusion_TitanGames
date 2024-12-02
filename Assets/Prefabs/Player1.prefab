@@ -1703,7 +1703,7 @@ MonoBehaviour:
   kcc: {fileID: 4391075928499431294}
   glideProcessor: {fileID: 3540907148272033431, guid: 6dde4e95e9ae2d547971fdb72f979b45,
     type: 3}
-  camTarget: {fileID: 7521976898276525714}
+  camTarget: {fileID: 5286237238680780877}
   source: {fileID: 1299036719452211626}
   maxPitch: 85
   lookSensitivity: 0.15
@@ -1761,7 +1761,9 @@ MonoBehaviour:
   PrevDefense: 0
   _IsDie:
     _value: 0
+  _CharacterType: 
   _AppliedSpeed: 0
+  rotationSpeed: 10
   LastMoveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &5380905122836385678
 MonoBehaviour:
