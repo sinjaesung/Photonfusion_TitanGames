@@ -3,7 +3,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.Windows;
 
-public class CameraFollow : NetworkBehaviour
+public class CameraFollow : MonoBehaviour
 {
     public static CameraFollow Singleton
     {
@@ -26,15 +26,12 @@ public class CameraFollow : NetworkBehaviour
     private Transform target;
     public Vector3 followOffset;
 
-    //Input Variables
-    KeyCode leftMouse = KeyCode.Mouse0, rightMouse = KeyCode.Mouse1, middleMouse = KeyCode.Mouse2;
-
     //Camera Variables
     public float CameraHeight = 1.75f, CameraMaxDistance = 25;
     float CameraMaxTilt = 90;
     [Range(0, 4)]
     public float CameraSpeed = 2;
-    float currentPan, currentTilt = 10, currentDistance = 5;
+    public float currentPan, currentTilt = 10, currentDistance = 5;
     [HideInInspector]
     public bool autoRunReset = false;
 
@@ -73,8 +70,6 @@ public class CameraFollow : NetworkBehaviour
     #region singleton
     private void Awake()
     {
-        transform.SetParent(null);
-
         if (_singleton != null && _singleton != this)
         {
             //다른 씬 갔다가 왔을때 awake또 실행되는데, 이때 awake로 새로 만들어지는데 새로만들어지는것만 삭제
@@ -91,14 +86,6 @@ public class CameraFollow : NetworkBehaviour
     #endregion
     private void Start()
     {
-        player.mainCam = this;
-        transform.position = player.transform.position + Vector3.up * CameraHeight;
-        transform.rotation = player.transform.rotation;
-
-        tilt.eulerAngles = new Vector3(currentTilt, transform.eulerAngles.y, transform.eulerAngles.z);
-        mainCam.transform.position += tilt.forward * -currentDistance;
-
-        CameraClipInfo();
     }
     private void OnDestroy()
     {
@@ -114,7 +101,7 @@ public class CameraFollow : NetworkBehaviour
 
         if (target != null)
         {
-            transform.SetPositionAndRotation(target.position + followOffset, Quaternion.identity);
+            //transform.SetPositionAndRotation(target.position + followOffset, Quaternion.identity);
             //transform.SetPositionAndRotation(target.position + followOffset, Quaternion.Euler(new Vector3(-1, 0, -1)));
             //CinemachineFreeLook cinemachine = GetComponent<CinemachineFreeLook>();
             //cinemachine.Follow = target;
@@ -125,19 +112,19 @@ public class CameraFollow : NetworkBehaviour
             //followCam.LookAt = target;
         }
 
-        panAngle = Vector3.SignedAngle(transform.forward, player.transform.forward, Vector3.up);
-
+        /*panAngle = Vector3.SignedAngle(transform.forward, player.transform.forward, Vector3.up);
+        
         switch (camMoveState)
         {
             case CameraMoveState.OnlyWhileMoving:
-                if (player.inputManager.accumulatedInput.Direction.magnitude > 0/* || player.rotation != 0*/)
+                if (player.inputManager.accumulatedInput.Direction.magnitude > 0 || player.rotation != 0)
                 {
                     CameraXAdjust();
                     CameraYAdjust();
                 }
                 break;
             case CameraMoveState.OnlyHorizontalWhileMoving:
-                if (player.inputManager.accumulatedInput.Direction.magnitude > 0 /*|| player.rotation != 0*/)
+                if (player.inputManager.accumulatedInput.Direction.magnitude > 0 || player.rotation != 0)
                     CameraXAdjust();
                 break;
             case CameraMoveState.AlwaysAdjust:
@@ -147,7 +134,7 @@ public class CameraFollow : NetworkBehaviour
             case CameraMoveState.NeverAdjust:
                 CameraNeverAdjust();
                 break;
-        }
+        }*/
         CameraTransforms();
     }
 
@@ -156,40 +143,58 @@ public class CameraFollow : NetworkBehaviour
         Debug.Log("CameraFollow SetTarget>>" + newTarget);
         target = newTarget;
         player = target.GetComponent<Player>();
+
+        player.mainCam = this;
+        transform.position = player.transform.position + Vector3.up * CameraHeight;
+        //transform.rotation = player.transform.rotation;
+
+        //tilt.eulerAngles = new Vector3(currentTilt, transform.eulerAngles.y, transform.eulerAngles.z);
+        mainCam.transform.position += tilt.forward * -currentDistance;
+
+        CameraClipInfo();
     }
 
     void Update()
     {
         //if (GetInput(out NetInput input))
         //{
-        if (!player.inputManager.IsLeftMouseButtonDown && !player.inputManager.IsRightMouseButtonDown)//if no mouse button is pressed
+        if (player)
         {
-            cameraState = CameraState.CameraNone;
+            if (!player.inputManager.IsLeftMouseButtonDown && !player.inputManager.IsRightMouseButtonDown)//if no mouse button is pressed
+            {
+                cameraState = CameraState.CameraNone;
+            }
+            else if (player.inputManager.IsLeftMouseButtonDown && !player.inputManager.IsRightMouseButtonDown)//if left mouse button is pressed
+            {
+                cameraState = CameraState.CameraRotate;
+            }
         }
-        else if (player.inputManager.IsLeftMouseButtonDown && !player.inputManager.IsRightMouseButtonDown)//if left mouse button is pressed
-        {
-            cameraState = CameraState.CameraRotate;
-        }
-        else if (!player.inputManager.IsLeftMouseButtonDown && player.inputManager.IsRightMouseButtonDown)//if right mouse button is pressed
+       
+        /*else if (!player.inputManager.IsLeftMouseButtonDown && player.inputManager.IsRightMouseButtonDown)//if right mouse button is pressed
         {
             cameraState = CameraState.CameraSteer;
-        }
+        }*/
 
-            //}
-            /* if (!Input.GetKey(leftMouse) && !Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) //if no mouse button is pressed
-             cameraState = CameraState.CameraNone;
-         else if (Input.GetKey(leftMouse) && !Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) //if left mouse button is pressed
-             cameraState = CameraState.CameraRotate;
-         else if (!Input.GetKey(leftMouse) && Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) //if right mouse button is pressed
-             cameraState = CameraState.CameraSteer;
-         else if ((Input.GetKey(leftMouse) && Input.GetKey(rightMouse)) || Input.GetKey(middleMouse)) //if left and right mouse button or middle mouse button is pressed
-             cameraState = CameraState.CameraRun;*/
+        //}
+        /* if (!Input.GetKey(leftMouse) && !Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) //if no mouse button is pressed
+         cameraState = CameraState.CameraNone;
+     else if (Input.GetKey(leftMouse) && !Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) //if left mouse button is pressed
+         cameraState = CameraState.CameraRotate;
+     else if (!Input.GetKey(leftMouse) && Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) //if right mouse button is pressed
+         cameraState = CameraState.CameraSteer;
+     else if ((Input.GetKey(leftMouse) && Input.GetKey(rightMouse)) || Input.GetKey(middleMouse)) //if left and right mouse button or middle mouse button is pressed
+         cameraState = CameraState.CameraRun;*/
 
+        if (rayColOrigin != null)
+        {
             if (rayGridX * rayGridY != rayColOrigin.Length)
-            CameraClipInfo();
+                CameraClipInfo();
+        }
+           
 
         CameraCollisions();
-        CameraInputs();
+        //CameraInputs();
+        CameraWheeling();
     }
     void CameraClipInfo()
     {
@@ -325,13 +330,24 @@ public class CameraFollow : NetworkBehaviour
                     if (!camXAdjust && camMoveState != CameraMoveState.NeverAdjust)
                         camXAdjust = true;
 
-                    if (player.steer)
-                        player.steer = false; //왼쪽마우스 조작시에 캐릭터steer false처리*/
+                   /* if (player.steer)
+                        player.steer = false;*/
 
-                   
                     currentPan += player.NetInput.LookDelta.x * CameraSpeed;
+
+                    /*if (!player.steer)
+                    {
+                        Vector3 playerReset = player.transform.eulerAngles;
+                        playerReset.y = transform.eulerAngles.y; //플레이어y축회전량을 카메라회전y량이랑 동일하게처리
+
+                        player.transform.eulerAngles = playerReset;
+                        //카메라run(가운데마우스)나 우측 마우스 조작시에 캐릭터steer true처리
+                        player.steer = true;
+                        //카메라조작에서 steer를 먼저 설정을해두고,캐릭터의 회전초기값을 현재 카메라y축 회전량으로 맞춰둔다.
+                        //이후에 player.steer로 인해 캐릭터에서 우측마우스조정으로 캐릭터y축회전이 이뤄나면(마우스우측조작중에 계속 해당한다)
+                    }*/
                 }
-                else if (cameraState == CameraState.CameraSteer || cameraState == CameraState.CameraRun)
+                /*else if (cameraState == CameraState.CameraSteer || cameraState == CameraState.CameraRun)
                 {
                     if (!player.steer)
                     {
@@ -344,13 +360,13 @@ public class CameraFollow : NetworkBehaviour
                         //카메라조작에서 steer를 먼저 설정을해두고,캐릭터의 회전초기값을 현재 카메라y축 회전량으로 맞춰둔다.
                         //이후에 player.steer로 인해 캐릭터에서 우측마우스조정으로 캐릭터y축회전이 이뤄나면(마우스우측조작중에 계속 해당한다)
                     }
-                }
+                }*/
 
                 //currentTilt -= Input.GetAxis("Mouse Y") * CameraSpeed;
-                currentTilt -= player.NetInput.LookDelta.y * CameraSpeed;
-                currentTilt = Mathf.Clamp(currentTilt, -CameraMaxTilt, CameraMaxTilt);
+                //currentTilt -= player.NetInput.LookDelta.y * CameraSpeed;
+                //currentTilt = Mathf.Clamp(currentTilt, -CameraMaxTilt, CameraMaxTilt);
 
-                 Debug.Log("cameraInputs currentPan,currentTilt:" + currentPan + "," + currentTilt);
+                // Debug.Log("cameraInputs currentPan,currentTilt:" + currentPan + "," + currentTilt);
             }
              else
              {
@@ -359,10 +375,16 @@ public class CameraFollow : NetworkBehaviour
              }
 
             //currentDistance -= Input.GetAxis("Mouse ScrollWheel") * 2;
-            float scrollDelta = player.inputManager.ScrollWheelDelta;
+            float scrollDelta = player.inputManager.ScrollWheelDelta *2;
             currentDistance -= scrollDelta;
             currentDistance = Mathf.Clamp(currentDistance, 0, CameraMaxDistance);
         //}
+    }
+    void CameraWheeling()
+    {
+        float scrollDelta = player.inputManager.ScrollWheelDelta * 2;
+        currentDistance -= scrollDelta;
+        currentDistance = Mathf.Clamp(currentDistance, 0, CameraMaxDistance);
     }
     void CameraXAdjust()
     {
@@ -394,7 +416,7 @@ public class CameraFollow : NetworkBehaviour
                 //Debug.Log("camXAdjust==false인상황에 카메라currentPan을 캐릭터y축회전량으로조정");
                 currentPan = player.transform.eulerAngles.y; //결과적으론 우측마우스조정때는 캐릭터의 y축회전량을 카메라가 동일하게 따라가는것과같다.
             }
-            Debug.Log("CamXAdjust>>" + currentPan);
+            Debug.Log("CamXAdjust>>" + panAngle+">"+ currentPan);
 
         }
     }
@@ -473,11 +495,16 @@ public class CameraFollow : NetworkBehaviour
             }
         }
 
-        transform.position = player.transform.position + Vector3.up * CameraHeight;
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentPan, transform.eulerAngles.z);
-        tilt.eulerAngles = new Vector3(currentTilt, tilt.eulerAngles.y, tilt.eulerAngles.z);
-        mainCam.transform.position = transform.position + tilt.forward * -adjustDistance;
+        if (player)
+        {
+            transform.position = player.transform.position + Vector3.up * CameraHeight;
+            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentPan, transform.eulerAngles.z);
+            //player.transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentPan, transform.eulerAngles.z);
+            //tilt.eulerAngles = new Vector3(currentTilt, tilt.eulerAngles.y, tilt.eulerAngles.z);
+            mainCam.transform.position = transform.position + tilt.forward * -adjustDistance;
+        }
     }
+       
 
     public enum CameraState { CameraNone, CameraRotate, CameraSteer, CameraRun }
 

@@ -161,14 +161,17 @@ public class Player : PlayerComponent
 
     [HideInInspector]
     public bool steer, autoRun;
-    public LayerMask groundMask;
 
     [HideInInspector]
     public CameraFollow mainCam;
 
-    public NetInput NetInput;
+    [SerializeField] public Vector2 inputs;
 
+    public NetInput NetInput;
     public float rotation;
+
+    //Running
+    public float rotateSpeed = 2f;
 
 
     private void Awake()
@@ -210,8 +213,12 @@ public class Player : PlayerComponent
         GroundNormalRotation();//바닥 착지 여부
         //UpdateTireRotation();
     }
+    
     public override void FixedUpdateNetwork()
     {
+       // new Vector3(transform.eulerAngles.x, currentPan, transform.eulerAngles.z)
+        //var Dir = new Vector3(transform.eulerAngles.x, mainCam.currentPan, transform.eulerAngles.z);
+        //Debug.Log("Player Forward Direction>>" + Dir);
         base.FixedUpdateNetwork();
         if (GetInput(out NetInput input))
         {
@@ -219,7 +226,7 @@ public class Player : PlayerComponent
             if (CanDrive)
             {
                 if (input.Buttons.IsSet(InputButton.W) || input.Buttons.IsSet(InputButton.S)
-               || input.Buttons.IsSet(InputButton.A) || input.Buttons.IsSet(InputButton.D))
+              || input.Buttons.IsSet(InputButton.A) || input.Buttons.IsSet(InputButton.D))
                 {
                     Debug.Log("Player 이동하고있는경우>>");
                     anim.SetBool("IsRunning", true);
@@ -270,12 +277,9 @@ public class Player : PlayerComponent
                 Debug.Log("조작 제한>>");
                 SetInputDirection(input,0);
             }
-
-            if (steer)
-                rotation = inputManager.MouseX * mainCam.CameraSpeed;
         }
     }
-
+   
     public override void Render()
     {
         foreach(var change in _changeDetector.DetectChanges(this))
@@ -349,10 +353,10 @@ public class Player : PlayerComponent
         if (kcc.Settings.ForcePredictedLookRotation)
         {
             Vector2 predictedLookRotation = baseLookRotation + inputManager.AccumulatedMouseDelta * lookSensitivity;
-            //kcc.SetLookRotation(predictedLookRotation);
+            kcc.SetLookRotation(predictedLookRotation);
         }
 
-        //UpdateCamTarget();
+       // UpdateCamTarget();
     }
     private void UseItems(NetInput inputs)
     {
@@ -433,7 +437,7 @@ public class Player : PlayerComponent
             AppliedSpeed = Mathf.Lerp(AppliedSpeed, 0, deceleration * Runner.DeltaTime);
         }
 
-       // var vel = (Rigidbody.rotation * Vector3.forward) * AppliedSpeed;
+        // var vel = (Rigidbody.rotation * Vector3.forward) * AppliedSpeed;
         //vel.y = Rigidbody.velocity.y;
         //Rigidbody.velocity = vel;
     }
@@ -704,7 +708,7 @@ public class Player : PlayerComponent
         anim.SetBool("Jumping", false);
     }
 
-    private void SetInputDirection(NetInput input,float AppliedSpeed_)
+    private void SetInputDirection(NetInput input, float AppliedSpeed_)
     {
         Vector3 worldDirection;
         if (IsGliding)
@@ -726,9 +730,11 @@ public class Player : PlayerComponent
         //Debug.Log("toRotation>>"+toRotation);
         //transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
-        //Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
-        //kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
-
+        Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
+        kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
+        //mainCam.transform.eulerAngles = new Vector3(mainCam.transform.eulerAngles.x, toRotation, mainCam.transform.eulerAngles.z);
+        // mainCam.transform.Rotate(new Vector3(0,kcc.GetLookRotation().y,0));
+        //mainCam.transform.localRotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
         if (AppliedSpeed_ != 0)
             kcc.SetInputDirection(worldDirection, false);
         else
@@ -738,7 +744,8 @@ public class Player : PlayerComponent
     }
     private void UpdateCamTarget()
     {
-        //camTarget.localRotation = Quaternion.Euler(kcc.GetLookRotation().x, 0f, 0f);
+        //camTarget.transform.localRotation = Quaternion.Euler(0f, kcc.GetLookRotation().y, 0f);
+        //mainCam.transform.localRotation = Quaternion.Euler(0f, kcc.GetLookRotation().y, 0f);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.InputAuthority | RpcTargets.StateAuthority)]

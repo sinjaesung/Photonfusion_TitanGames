@@ -58,7 +58,7 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         keyboard = Keyboard.current;
         if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame || keyboard.escapeKey.wasPressedThisFrame))
         {
-            /*if (Cursor.lockState == CursorLockMode.Locked)
+            if (Cursor.lockState == CursorLockMode.Locked)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -67,12 +67,12 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-            }*/
+            }
         }
 
         // Accumulate input only if the cursor is locked.
-       /* if (Cursor.lockState != CursorLockMode.Locked)
-            return;*/
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
 
         NetworkButtons buttons = default;
 
@@ -170,8 +170,8 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
     {
         if (player == runner.LocalPlayer)
         {
-           // Cursor.lockState = CursorLockMode.Locked;
-           // Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 

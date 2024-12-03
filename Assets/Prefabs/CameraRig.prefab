@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8674756865711019629}
   - component: {fileID: 4270583649165611174}
   - component: {fileID: 4574863788921938588}
-  - component: {fileID: 30062097672495962}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -51,12 +50,15 @@ MonoBehaviour:
   CameraHeight: 0.9
   CameraMaxDistance: 25
   CameraSpeed: 2
+  currentPan: 0
+  currentTilt: 10
+  currentDistance: 5
   autoRunReset: 0
   panAngle: 0
   panOffset: 0
   cameraState: 0
   cameraAdjustSpeed: 1
-  camMoveState: 0
+  camMoveState: 3
   collisionDebug: 1
   collisionCushion: 0.35
   clipCushion: 1.5
@@ -83,23 +85,7 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 4270583649165611174}
---- !u!114 &30062097672495962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2572041087734756087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d73b0a95be81246699cf0d9ecdc01863, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PreferredRunner: 0
-  Components: []
-  _guid: 00c08462-05cc-46a8-
+  NetworkedBehaviours: []
 --- !u!1 &6530450957010477761
 GameObject:
   m_ObjectHideFlags: 0
