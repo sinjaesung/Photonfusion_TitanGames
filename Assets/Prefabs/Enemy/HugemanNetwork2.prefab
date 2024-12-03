@@ -2730,7 +2730,7 @@ MonoBehaviour:
   aggroLayerMask:
     serializedVersion: 2
     m_Bits: 192
-  AggroAreaDistance: 30
+  AggroAreaDistance: 60
   DistanceSpawnPointReset: 99999
   returningToPoint: 0
   spawnPoint: {fileID: 0}
