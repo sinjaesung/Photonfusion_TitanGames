@@ -2452,7 +2452,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8347460853382205842}
@@ -2571,7 +2571,7 @@ MonoBehaviour:
   runSpeed: 5
   maxHP: 12000
   currenthp: 0
-  attackdamage: 800
+  attackdamage: 1200
   defense: 400
   attack_distance: 0
   enemyCurrentfill: 0
@@ -2730,7 +2730,7 @@ MonoBehaviour:
   aggroLayerMask:
     serializedVersion: 2
     m_Bits: 192
-  AggroAreaDistance: 120
+  AggroAreaDistance: 160
   DistanceSpawnPointReset: 99999
   returningToPoint: 0
   spawnPoint: {fileID: 0}

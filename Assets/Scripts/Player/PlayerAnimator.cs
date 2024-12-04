@@ -41,7 +41,7 @@ public class PlayerAnimator : PlayerComponent
         controller.OnSpinOutChanged += val =>
         {
             if (!val) return;
-            SetTrigger("Spinout");
+            //SetTrigger("Spinout");
         };
         controller.OnDefenseChanged += val =>
         {

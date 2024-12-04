@@ -127,7 +127,7 @@ public class UIManager : MonoBehaviour
         }
         else if (newState == GameState.Completed)
         {
-            completeText.text = "GameEnd";
+            completeText.text = "";
 
             int result = gamelogic.CharacterEndingStatus();
             Debug.Log("UiManager Completed Result>>" + result);

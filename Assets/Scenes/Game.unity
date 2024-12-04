@@ -695,7 +695,7 @@ Transform:
   m_GameObject: {fileID: 27027689}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 89.47, y: 8.45, z: 76.52}
+  m_LocalPosition: {x: 76.4, y: 8.45, z: 51.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -713,7 +713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651a7563bb167af47a1cc855f16a0f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 3776342806634928592, guid: bceccb57f46f3d846866417e428cbb78, type: 3}
+  monster: {fileID: 8123565953457123489, guid: 90e704e3fe55dea43acf0da09410a458, type: 3}
   Count: 1
   SpawnRadius: 50
   SpawnHeightMin: 0
@@ -1688,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651a7563bb167af47a1cc855f16a0f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 3776342806634928592, guid: bceccb57f46f3d846866417e428cbb78, type: 3}
+  monster: {fileID: 2948619799814156624, guid: f69e78894e7998c41925dd029d9cdce6, type: 3}
   Count: 1
   SpawnRadius: 50
   SpawnHeightMin: 0
@@ -1898,10 +1898,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefabs:
-  - RawGuidValue: 091e05df56044324aa97910129d76a86
-  - RawGuidValue: 3165317b0dd342243b17b964bd32f363
+  - RawGuidValue: d9261ecf9a8b9524eb70886266279ceb
   - RawGuidValue: fb5c973b7e9d5e140bf3822d04fc9c6d
-  - RawGuidValue: fb5c973b7e9d5e140bf3822d04fc9c6d
+  - RawGuidValue: 83f42dda96052d84189d38936eb19b4d
+  - RawGuidValue: 37e2a34dcf152dd4eadaf28ae1b1a134
   spawnpoint: {fileID: 329352250}
   spawnpointPivot: {fileID: 1195123766}
   gamemanager: {fileID: 0}
@@ -6863,7 +6863,7 @@ Transform:
   m_GameObject: {fileID: 146544013}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 127.8, y: 9.12, z: -7}
+  m_LocalPosition: {x: 68.7, y: 9.12, z: 40.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6881,7 +6881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651a7563bb167af47a1cc855f16a0f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 3776342806634928592, guid: bceccb57f46f3d846866417e428cbb78, type: 3}
+  monster: {fileID: 3661722327825744033, guid: 80497351e6be6134985b78fbfee09f34, type: 3}
   Count: 1
   SpawnRadius: 50
   SpawnHeightMin: 0
@@ -8796,7 +8796,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221859576}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c6310b6295df7ff49aa3d74e7262ee6c, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: f8ab769924536d843a91625478aacf6a, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -12758,7 +12758,6 @@ Transform:
   - {fileID: 1816990177}
   - {fileID: 27027690}
   - {fileID: 146544014}
-  - {fileID: 1711391253}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &417618105
@@ -12830,7 +12829,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 420088868}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: bc4783ff3e3f3534c9564da69325fef7, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 656cdd60917996848bd1829efe179093, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -16921,7 +16920,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571988370}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: f7f95ffb3fea7db43a140d146502f170, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 3eb0651c810c70b4dbc0efd39660c2bf, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -17978,7 +17977,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 686635711}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 0880106946c298e4f934d034daf51691, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: f8ab769924536d843a91625478aacf6a, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -35721,7 +35720,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679682186}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: bcc3a616c4829a347990fc9fb8a3afac, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 4a8377129d966964b95a129cb0934654, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -36180,74 +36179,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6646079298502681032, guid: 57b784eb595921945902158fbd09c9cd, type: 3}
---- !u!1 &1711391252
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1711391253}
-  - component: {fileID: 1711391255}
-  - component: {fileID: 1711391254}
-  m_Layer: 0
-  m_Name: IEnemySpawnerNetworkGround (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1711391253
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711391252}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 122.05, y: -5.99, z: 122.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 417234621}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1711391254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711391252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651a7563bb167af47a1cc855f16a0f96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monster: {fileID: 3776342806634928592, guid: bceccb57f46f3d846866417e428cbb78, type: 3}
-  Count: 1
-  SpawnRadius: 50
-  SpawnHeightMin: 0
-  SpawnHeightMax: 20
---- !u!114 &1711391255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711391252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 490784982
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 1711391254}
 --- !u!1001 &1712105764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40002,7 +39933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651a7563bb167af47a1cc855f16a0f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 3776342806634928592, guid: bceccb57f46f3d846866417e428cbb78, type: 3}
+  monster: {fileID: 215198876813690459, guid: b127a9c8a085faf4d802f41a0e6a5295, type: 3}
   Count: 1
   SpawnRadius: 50
   SpawnHeightMin: 0
@@ -42099,7 +42030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651a7563bb167af47a1cc855f16a0f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 3776342806634928592, guid: bceccb57f46f3d846866417e428cbb78, type: 3}
+  monster: {fileID: 4755351578252130251, guid: 0c1d4e7c3fcba3a47acceddd39c032e9, type: 3}
   Count: 1
   SpawnRadius: 50
   SpawnHeightMin: 0
