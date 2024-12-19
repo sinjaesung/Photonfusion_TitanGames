@@ -21,7 +21,7 @@ public class IEnemyMeleeCollider_Network : NetworkBehaviour
     {
         gamelogic = FindObjectOfType<GameLogic>();
 
-        Debug.Log("IEnemyMeleeCollider origin Start:");
+        Debug.Log("IEnemyMeleeCollider_Network origin Start:");
         if (referMother.attacktarget)
         {
             playerController = referMother.attacktarget.GetComponent<Player>();
@@ -116,7 +116,7 @@ public class IEnemyMeleeCollider_Network : NetworkBehaviour
                     takeDamage = 0;
                 }
                 Debug.Log("IEnemyMeleeCollider_Network 최종적용데미지:" + takeDamage);
-                healthCom.UpdateHealth(takeDamage);//피격당한 플레이어 자신에게만 데미지처리>
+                healthCom.UpdateHealth(takeDamage);
                 if (audioSource != null)
                 {
                     audioSource.Play();

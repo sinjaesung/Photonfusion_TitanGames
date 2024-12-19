@@ -51,8 +51,12 @@ public class IEnemyFSM_Network : NetworkBehaviour
 
     public GameLogic gamelogic;
 
+    [Header("References")]
+    public NetworkHealth Health;
     public NetworkTransform NetworkTransform;
     public bool IsDied = false;
+
+    public Animator anim;
 
     private void Awake()
     {
@@ -65,9 +69,9 @@ public class IEnemyFSM_Network : NetworkBehaviour
         navAgent.speed = status.WalkSpeed;
         naviMeshSpeed = status.WalkSpeed;
 
-        if (GetComponent<Animator>() != null)
+        if (anim != null)
         {
-            GetComponent<Animator>().SetFloat("AttackSpeed", 5 * Mathf.Pow(attackRate, -1f));
+            anim.SetFloat("AttackSpeed", 5 * Mathf.Pow(attackRate, -1f));
         }
 
         for (int c = 0; c < enemymeleeColliders.Length; c++)
@@ -85,15 +89,17 @@ public class IEnemyFSM_Network : NetworkBehaviour
 
     public void Respawn(Vector3 position,Quaternion rotation)
     {
+        Health.Revive();
+
         status = GetComponent<Status>();
         navAgent = GetComponent<NavMeshAgent>();
 
         navAgent.speed = status.WalkSpeed;
         naviMeshSpeed = status.WalkSpeed;
 
-        if(GetComponent<Animator>() != null)
+        if(anim != null)
         {
-            GetComponent<Animator>().SetFloat("AttackSpeed", 5 * Mathf.Pow(attackRate, -1f));
+            anim.SetFloat("AttackSpeed", 5 * Mathf.Pow(attackRate, -1f));
         }
 
         for (int c = 0; c < enemymeleeColliders.Length; c++)
@@ -117,7 +123,7 @@ public class IEnemyFSM_Network : NetworkBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         gamelogic = FindObjectOfType<GameLogic>();
     }
-    public virtual void Setup(IEnemySpawner enemyMemoryPool)
+  /*  public virtual void Setup(IEnemySpawner enemyMemoryPool)
     {
         status = GetComponent<Status>();
         status.CurrentHP = status.MaxHP;
@@ -125,14 +131,14 @@ public class IEnemyFSM_Network : NetworkBehaviour
 
         navAgent = GetComponent<NavMeshAgent>();
         //this.enemyMemoryPool = enemyMemoryPool;
-        /* if (enemyProjectileMemoryPool != null)
+        if (enemyProjectileMemoryPool != null)
          {
              this.enemyProjectileMemoryPool = enemyProjectileMemoryPool;
          }
- */
+ 
         //NavMeshAgent 컴포넌트에서 회전을 업데이트하지 않도록 설정
         //Debug.Log("IEnemyFSM setup pooing setup:" + navAgent);
-    }
+    }*/
     private void OnEnable()
     {
         //적이 활성화될 때 적의 상태를 "대기"로 설정
@@ -142,9 +148,9 @@ public class IEnemyFSM_Network : NetworkBehaviour
         navAgent.speed = status.WalkSpeed;
         naviMeshSpeed = status.WalkSpeed;
 
-        if (GetComponent<Animator>() != null)
+        if (anim != null)
         {
-            GetComponent<Animator>().SetFloat("AttackSpeed", 5 * Mathf.Pow(attackRate, -1f));
+            anim.SetFloat("AttackSpeed", 5 * Mathf.Pow(attackRate, -1f));
         }
 
         for (int c = 0; c < enemymeleeColliders.Length; c++)
@@ -175,9 +181,9 @@ public class IEnemyFSM_Network : NetworkBehaviour
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             float speed = localVelocity.z;
             //Debug.Log("몬스터navMesh의 속력:" + speed);
-            if (GetComponent<Animator>() != null)
+            if (anim != null)
             {
-                GetComponent<Animator>().SetFloat("ForwardSpeed", speed);
+                anim.SetFloat("ForwardSpeed", speed);
             }
         }
     }
@@ -272,18 +278,18 @@ public class IEnemyFSM_Network : NetworkBehaviour
                 if (targetHealth != null && targetHealth.Health <= 0)
                 {
                     Debug.Log("캐릭터가 공격중에 죽었으면 공격을 중단!");
-                    if (GetComponent<Animator>() != null)
+                    if (anim != null)
                     {
-                        GetComponent<Animator>().SetBool("CanAttack", false);
+                        anim.SetBool("CanAttack", false);
                     }
                     StopCoroutine("AttackExe");
                     yield break;
                 }
 
                 //공격 애니메이션 실행
-                if (GetComponent<Animator>() != null)
+                if (anim != null)
                 {
-                    GetComponent<Animator>().SetTrigger("BasisAttack1");//근접밀리어택
+                    anim.SetTrigger("BasisAttack1");//근접밀리어택
                     // Debug.Log("IEnemyFSM 공격모션 히히 basicAttack1");
                 }
             }
@@ -314,9 +320,9 @@ public class IEnemyFSM_Network : NetworkBehaviour
                 {
                     //Debug.Log("IEnemyFSM 타깃 공격범위내로발견 타깃을 공격!");
 
-                    if (GetComponent<Animator>() != null)
+                    if (anim != null)
                     {
-                        GetComponent<Animator>().SetBool("CanAttack", true);
+                        anim.SetBool("CanAttack", true);
                     }
                     WithinRange();
                     //타겟 방향 주시
@@ -329,9 +335,9 @@ public class IEnemyFSM_Network : NetworkBehaviour
             {//returningToPoint가 false여야만 chasePlayer는 실행되기에 returningToPoint=true인데 실행되는 경우는 없음.
                 //Debug.Log("IEnemyFSM Not within distance"+ distanceToPlayer);//returningToPoint==false && navAgent.remaingDistance > attackRange(추적상황)
 
-                if (GetComponent<Animator>() != null)
+                if (anim != null)
                 {
-                    GetComponent<Animator>().SetBool("CanAttack", false);
+                    anim.SetBool("CanAttack", false);
                 }
 
                 AttackReset();
@@ -442,12 +448,12 @@ public class IEnemyFSM_Network : NetworkBehaviour
     }
     protected void ReturnToSpawn()
     {
-        if (GetComponent<Animator>() != null)
+        if (anim != null)
         {
-            GetComponent<Animator>().SetBool("CanAttack", false);
+            anim.SetBool("CanAttack", false);
         }
         returningToPoint = true;
-        Debug.Log("IEnemyFSM 타깃을 범위밖으로 놓치면서,DistancetoSpawnPoint최대이동거리초과하여 다시 첫소환지로 돌아감");
+        Debug.Log("IEnemyFSM_Network 타깃을 범위밖으로 놓치면서,DistancetoSpawnPoint최대이동거리초과하여 다시 첫소환지로 돌아감");
         navAgent.speed = status.WalkSpeed;
         naviMeshSpeed = status.WalkSpeed;
 

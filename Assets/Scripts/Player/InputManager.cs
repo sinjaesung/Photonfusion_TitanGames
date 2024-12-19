@@ -126,6 +126,7 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
             buttons.Set(InputButton.Jump, keyboard.spaceKey.isPressed);
             buttons.Set(InputButton.Glide, keyboard.leftShiftKey.isPressed);
             buttons.Set(InputButton.F, Input.GetKey(KeyCode.F));
+            buttons.Set(InputButton.Ctrl, Input.GetKey(KeyCode.LeftControl));
         }
 
         accumulatedInput.Buttons = new NetworkButtons(accumulatedInput.Buttons.Bits | buttons.Bits);

@@ -3,13 +3,21 @@ using UnityEngine;
 public class NetworkHealth : NetworkBehaviour
 {
     [Header("Setup")]
-    public float InitialHealth=3;
+    public float InitialHealth=300;
+    public float DeathTime;
+
+    [Header("References")]
+    public GameObject VisualRoot;
+    public GameObject DeathRoot;
 
     public bool IsAlive => CurrentHealth > 0;
-    public bool IsFinished => IsAlive == false;
+    public bool IsFinished => IsAlive == false && _deathCooldown.Expired(Runner);
 
     [Networked, HideInInspector, OnChangedRender(nameof(OnCurrentHealthChanged))]
     public float CurrentHealth { get; set; }
+
+    [Networked]
+    private TickTimer _deathCooldown { get; set; }
 
     public bool TakeHit(float damage)
     {
@@ -18,11 +26,19 @@ public class NetworkHealth : NetworkBehaviour
 
         CurrentHealth -= damage;
 
+        if (IsAlive == false)
+        {
+            //Entity died,let's start death cooldown
+            CurrentHealth = 0;
+            _deathCooldown = TickTimer.CreateFromSeconds(Runner, DeathTime);
+        }
+
         return true;
     }
     public void Revive()
     {
         CurrentHealth = InitialHealth;
+        _deathCooldown = default;
     }
     public override void Spawned()
     {
@@ -35,8 +51,16 @@ public class NetworkHealth : NetworkBehaviour
 
     public override void Render()
     {
+        // Use interpolated value when checking if entity is alive in Render.
+        // This will ensure that death effects are played AFTER the death was "confirmed"
+        // on the server in case of mispredictions (e.g. lost fire input) and also helps
+        // with showing player visual at the correct position right away after respawn
+        // (= player won't be visible before KCC teleport that is interpolated as well).
         var interpolator = new NetworkBehaviourBufferInterpolator(this);
         bool isAlive = interpolator.Float(nameof(CurrentHealth)) > 0;
+
+        VisualRoot.SetActive(isAlive);
+        DeathRoot.SetActive(isAlive == false);
     }
 
     private void OnCurrentHealthChanged()

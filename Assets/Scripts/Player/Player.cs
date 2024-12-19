@@ -173,7 +173,7 @@ public class Player : PlayerComponent
     //Running
     public float rotateSpeed = 2f;
 
-
+    public HitboxRoot HitboxRoot;
     private void Awake()
     {
         collider = GetComponent<SphereCollider>();
@@ -278,6 +278,10 @@ public class Player : PlayerComponent
                 SetInputDirection(input,0);
             }
         }
+
+        //Disable collisions and hits when player is dead
+        HitboxRoot.HitboxRootActive = Health > 0;
+        kcc.SetActive(HitboxRoot.HitboxRootActive);
     }
    
     public override void Render()

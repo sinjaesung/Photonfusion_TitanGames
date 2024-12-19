@@ -13,7 +13,7 @@ public class IEnemySpawner_Network : NetworkBehaviour
     public float SpawnHeightMin = 0f;
     public float SpawnHeightMax = 20f;
 
-    private List<IEnemyFSM_Network> _enemies = new(128);
+    public List<IEnemyFSM_Network> _enemies = new(128);
 
     public override void Spawned()
     {
@@ -39,7 +39,7 @@ public class IEnemySpawner_Network : NetworkBehaviour
 
             if (enemyObj)
             {
-                if (enemyObj.IsDied)
+                if (/*enemyObj.IsDied*/enemyObj.Health.IsFinished)
                 {
                     Respawn(enemyObj);
                 }

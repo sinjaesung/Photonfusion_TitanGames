@@ -10,7 +10,8 @@ public enum InputButton
     S,
     A,
     D,
-    F
+    F,
+    Ctrl
 }
 
 public struct NetInput : INetworkInput
