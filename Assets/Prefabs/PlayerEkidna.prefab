@@ -10112,12 +10112,13 @@ MonoBehaviour:
   CharacterPivot: {fileID: 2242589830191385494}
   HitMask:
     serializedVersion: 2
-    m_Bits: 577
+    m_Bits: 1728
   ImpactPrefab: {fileID: 921809749201012083, guid: d75b87fffc7c7f3488a454e20a77ea42,
     type: 3}
   MuzzleParticle: {fileID: 4825568053951116153}
   FireSound: {fileID: 2639434335079952805}
   damage: 140
+  camerafollow: {fileID: 0}
 --- !u!114 &2165019993149049617
 MonoBehaviour:
   m_ObjectHideFlags: 0

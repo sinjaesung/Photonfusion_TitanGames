@@ -144,7 +144,7 @@ public class IEnemyFSM_Network : NetworkBehaviour
         //적이 활성화될 때 적의 상태를 "대기"로 설정
         // ChangeState(EnemyState.Idle);
         //Debug.Log("IEnemyFSM OnEnable");
-
+        Debug.Log("적 활성화>>");
         navAgent.speed = status.WalkSpeed;
         naviMeshSpeed = status.WalkSpeed;
 
@@ -166,6 +166,7 @@ public class IEnemyFSM_Network : NetworkBehaviour
     }
     private void OnDisable()
     {
+        Debug.Log("적 비활성화>>");
         //적이 비활성화될 때 현재 재생중인 상태를 종료하고, 상태를 "None"으로 설정
         AttackReset();
         StopAllCoroutines();

@@ -41,10 +41,18 @@ public class IEnemySpawner_Network : NetworkBehaviour
             {
                 if (/*enemyObj.IsDied*/enemyObj.Health.IsFinished)
                 {
-                    Respawn(enemyObj);
+                    enemyObj.gameObject.SetActive(false);
+                    //Respawn(enemyObj);
+                    StartCoroutine(RespawnCoroutine(enemyObj));
                 }
             }
         }
+    }
+    private IEnumerator RespawnCoroutine(IEnemyFSM_Network enemy_)
+    {
+        yield return new WaitForSeconds(6f);
+        enemy_.gameObject.SetActive(true);
+        Respawn(enemy_);
     }
     private void Respawn(IEnemyFSM_Network enemy)
     {

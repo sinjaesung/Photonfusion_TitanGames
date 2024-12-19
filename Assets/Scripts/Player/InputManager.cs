@@ -56,7 +56,7 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         }
 
         keyboard = Keyboard.current;
-        if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame || keyboard.escapeKey.wasPressedThisFrame))
+        /*if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame || keyboard.escapeKey.wasPressedThisFrame))
         {
             if (Cursor.lockState == CursorLockMode.Locked)
             {
@@ -69,10 +69,10 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
                 Cursor.visible = false;
             }
         }
-
+*/
         // Accumulate input only if the cursor is locked.
-        if (Cursor.lockState != CursorLockMode.Locked)
-            return;
+       /* if (Cursor.lockState != CursorLockMode.Locked)
+            return;*/
 
         NetworkButtons buttons = default;
 
@@ -169,11 +169,11 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
 
     void INetworkRunnerCallbacks.OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (player == runner.LocalPlayer)
+      /*  if (player == runner.LocalPlayer)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-        }
+        }*/
     }
 
     void INetworkRunnerCallbacks.OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
@@ -190,8 +190,8 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
 
     async void INetworkRunnerCallbacks.OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+       /* Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;*/
 
         Debug.Log("게임 리스타트>>");
         Destroy(FindObjectOfType<GameUI>().gameObject);

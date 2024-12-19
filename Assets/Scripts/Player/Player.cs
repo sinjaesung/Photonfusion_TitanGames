@@ -736,7 +736,7 @@ public class Player : PlayerComponent
 
         Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
         kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
-        //mainCam.transform.eulerAngles = new Vector3(mainCam.transform.eulerAngles.x, toRotation, mainCam.transform.eulerAngles.z);
+        //mainCam.transform.eulerAngles = new Vector3(mainCam.transform.eulerAngles.x, transform.eulerAngles.y, mainCam.transform.eulerAngles.z);
         // mainCam.transform.Rotate(new Vector3(0,kcc.GetLookRotation().y,0));
         //mainCam.transform.localRotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
         if (AppliedSpeed_ != 0)
