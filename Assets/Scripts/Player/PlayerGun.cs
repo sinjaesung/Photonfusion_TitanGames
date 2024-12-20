@@ -10,7 +10,7 @@ public class PlayerGun : NetworkBehaviour
     public Animator animator;
     public Transform CharacterPivot;
 
-    [Header("Fire Setup")]
+    /*[Header("Fire Setup")]
     public LayerMask HitMask;
     public GameObject ImpactPrefab;
     public ParticleSystem MuzzleParticle;
@@ -21,7 +21,7 @@ public class PlayerGun : NetworkBehaviour
     [Networked]
     private Vector3 _hitPosition { get; set; }
     [Networked]
-    private Vector3 _hitNormal { get; set; }
+    private Vector3 _hitNormal { get; set; }*/
     [Networked]
     private int _fireCount { get; set; }
 
@@ -33,7 +33,12 @@ public class PlayerGun : NetworkBehaviour
 
     [SerializeField] private float damage = 3;
 
-    public CameraFollow camerafollow;
+    [Networked] private TickTimer AttackTimer { get; set; }
+
+    //[SerializeField] public Player player;
+
+    public bool IsAttackTime => !(AttackTimer.ExpiredOrNotRunning(Runner));
+
     public override void Spawned()
     {
         //Reset visible fire count
@@ -42,9 +47,8 @@ public class PlayerGun : NetworkBehaviour
 
     public override void Render()
     {
-        ShowFireEffects();
-
-        camerafollow = FindObjectOfType<CameraFollow>();
+        //ShowFireEffects();
+        Debug.Log("PlayerGun IsAttackTime>>" + IsAttackTime);
     }
 
     private void Awake()
@@ -62,7 +66,16 @@ public class PlayerGun : NetworkBehaviour
         if (GetInput(out NetInput input))
         {
             if (input.Buttons.WasPressed(PreviousButtons, InputButton.Ctrl))
-                Fire();
+            {
+                if (!IsAttackTime)
+                {
+                    Fire();
+                }
+                else
+                {
+                    Debug.Log("AttackTime 적용 중에는 공격제한>>");
+                }
+            }
 
             PreviousButtons = input.Buttons;
 
@@ -72,12 +85,12 @@ public class PlayerGun : NetworkBehaviour
     private void Fire()
     {
         //Clear hit position in case nothing will be hit
-        _hitPosition = Vector3.zero;
+        /*_hitPosition = Vector3.zero;
 
         var hitOptions = HitOptions.IncludePhysX | HitOptions.IgnoreInputAuthority;
 
         //Whole projectile path and effects are immediately processed(= hitscan projectile)
-        /* if(Runner.LagCompensation.Raycast(CharacterPivot.position,CharacterPivot.forward,30f,
+         if(Runner.LagCompensation.Raycast(CharacterPivot.position,CharacterPivot.forward,30f,
              Object.InputAuthority,out var hit,HitMask,hitOptions,QueryTriggerInteraction.Ignore) == true)
          {
              Debug.Log("Target hit hitBox" + hit + "," + hit.Hitbox);
@@ -109,70 +122,18 @@ public class PlayerGun : NetworkBehaviour
              _hitNormal = hit.Normal;
              Debug.Log("PlayerGun hitPosition,hitNormal>>" + _hitPosition + "," + _hitNormal);
          }*/
-        if (GetInput(out NetInput input))
-        {
-            // Check if the mouse is being moved or input detected
-            if (Input.mousePosition != null && camerafollow && camerafollow.mainCam)
-            {
-                // Get the mouse position in screen coordinates
-                Vector3 mouseScreenPosition = Input.mousePosition;
-
-                // Create a ray from the camera to the mouse position
-                Ray ray = camerafollow.mainCam.ScreenPointToRay(mouseScreenPosition);
-                              
-                 // Raycast hit information
-                 RaycastHit mouseWorldhit_;
-
-                // Perform the raycast to check for a collision with objects in the scene
-                if (Physics.Raycast(ray, out mouseWorldhit_,999f,HitMask))
-                {
-                    // Log the point where the ray intersects a collider
-                    Debug.Log("PlayerGun Mouse World Position (hit): " + mouseWorldhit_.point);
-
-                    RaycastHit hit;
-                    if (Physics.Raycast(CharacterPivot.position, (mouseWorldhit_.point - CharacterPivot.position), out hit, 30f, HitMask))
-                    {
-                        Debug.Log("Target hit>>" + hit.transform.name);
-                        var health = hit.transform.GetComponent<NetworkHealth>();
-                        if (health != null && health.TakeHit(damage))
-                        {
-                            Debug.Log("PlayerGun 대상 타깃>>" + health.transform.name + ">Damage:" + damage);
-                        }
-
-                        //Deal 플레이어간 데미지 처리
-                        Player healthCom = hit.transform.GetComponent<Player>();
-                        if (healthCom != null)
-                        {
-                            float takeDamage = damage - healthCom.Defense;
-                            Debug.Log("PlayerGun 대상 타깃>>" + healthCom.transform.name + ">Damage:" + takeDamage);
-                            if (takeDamage <= 0)
-                            {
-                                takeDamage = 0;
-                            }
-                            healthCom.UpdateHealth(takeDamage);
-                        }
-
-                        _hitPosition = hit.point;
-                        _hitNormal = hit.normal;
-                        Debug.Log("PlayerGun hitPosition,hitNormal>>" + _hitPosition + "," + _hitNormal);
-                    }
-                }
-                else
-                {
-                    // If no object is hit, calculate world position on a flat plane
-                    Vector3 worldPosition = ray.GetPoint(9999);
-                    Debug.Log("Mouse World Position (no hit): " + worldPosition);
-                }              
-            }
-        }
-           
-
-        // In this example projectile count property (fire count) is used not only for weapon fire effects
-        // but to spawn the projectile visuals themselves.
+        AttackTimer = TickTimer.CreateFromSeconds(Runner, 0.2f);
+        animator.SetBool(_animIDShoot,true);
+        Invoke(nameof(FireClear),0.2f);
         _fireCount++;
     }
+    private void FireClear()
+    {
+        animator.SetBool(_animIDShoot, false);
+        AttackTimer = TickTimer.None;
+    }
     
-    private void ShowFireEffects()
+    /*private void ShowFireEffects()
     {
         // Notice we are not using OnChangedRender for fireCount property but instead
         // we are checking against a local variable and show fire effects only when visible
@@ -192,7 +153,7 @@ public class PlayerGun : NetworkBehaviour
         }
 
         _visibleFireCount = _fireCount;
-    }
+    }*/
 
     private void AssignAnimationIDs()
     {

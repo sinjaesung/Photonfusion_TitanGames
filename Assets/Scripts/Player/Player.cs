@@ -280,8 +280,8 @@ public class Player : PlayerComponent
         }
 
         //Disable collisions and hits when player is dead
-        HitboxRoot.HitboxRootActive = Health > 0;
-        kcc.SetActive(HitboxRoot.HitboxRootActive);
+        //HitboxRoot.HitboxRootActive = Health > 0;
+        //kcc.SetActive(HitboxRoot.HitboxRootActive);
     }
    
     public override void Render()
@@ -701,9 +701,9 @@ public class Player : PlayerComponent
         {
             if (BoostTierIndex > 0)
             {
-                LastMoveDirection += new Vector3(0, 6, 0);
+                //LastMoveDirection += new Vector3(0, 6, 0);
                 Debug.Log("CheckBoostPower Input F Key>>" + BoostTierIndex + "|" + (LastMoveDirection * 1.2f));
-                kcc.Jump(LastMoveDirection * 1.2f);
+                kcc.Jump((LastMoveDirection * AppliedSpeed + new Vector3(0,6,0)) * 1.2f);
             }
         }
     }
@@ -734,7 +734,7 @@ public class Player : PlayerComponent
         //Debug.Log("toRotation>>"+toRotation);
         //transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
-        Quaternion toRotation = Quaternion.LookRotation(worldDirection, Vector3.up);
+        Quaternion toRotation = Quaternion.LookRotation(/*worldDirection*/LastMoveDirection, Vector3.up);
         kcc.SetLookRotation(Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime));
         //mainCam.transform.eulerAngles = new Vector3(mainCam.transform.eulerAngles.x, transform.eulerAngles.y, mainCam.transform.eulerAngles.z);
         // mainCam.transform.Rotate(new Vector3(0,kcc.GetLookRotation().y,0));
@@ -744,7 +744,15 @@ public class Player : PlayerComponent
         else
             kcc.SetInputDirection(Vector3.zero, false);
 
-        LastMoveDirection = worldDirection * AppliedSpeed_;
+        if(worldDirection.magnitude > 0f)
+        {
+            LastMoveDirection = worldDirection;
+            Debug.Log("방향키 입력한경우>>");
+        }
+        else
+        {
+            Debug.Log("방향키 입력한경우>>");
+        }
     }
     private void UpdateCamTarget()
     {

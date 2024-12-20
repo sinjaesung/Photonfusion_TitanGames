@@ -194,6 +194,11 @@ public class IEnemyFSM_Network : NetworkBehaviour
     }
     void FixedUpdate()
     {
+        if (Health.IsFinished)
+        {
+            return;
+        }
+
         gamelogic = FindObjectOfType<GameLogic>();
 
         if (transform.position.y <= -999)
@@ -391,6 +396,11 @@ public class IEnemyFSM_Network : NetworkBehaviour
     }
     private void UpdateAttackPlayer()//원거리Enemy용
     {
+        if (Health.IsFinished)
+        {
+            return;
+        }
+ 
         Collider[] Perceptiontargets = Physics.OverlapSphere(transform.position, AggroAreaDistance, PlayerLayer);
         List<Collider> filterPerceptions = new List<Collider>();
         if (Perceptiontargets.Length > 0)

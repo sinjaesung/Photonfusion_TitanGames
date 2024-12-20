@@ -34,6 +34,9 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
 
     public float MouseX => Input.GetAxis("Mouse X");
 
+    public LayerMask HitMask;//마우스 위치 레이케스터 관련 감지
+    public RaycastHit mouseWorldhit_;//마우스 위치 관련 변수
+
     private void OnDestroy()
     {
         DisposeInputs();
@@ -71,8 +74,8 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         }
 */
         // Accumulate input only if the cursor is locked.
-       /* if (Cursor.lockState != CursorLockMode.Locked)
-            return;*/
+        /* if (Cursor.lockState != CursorLockMode.Locked)
+             return;*/
 
         NetworkButtons buttons = default;
 
@@ -89,12 +92,12 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
         {
             if (keyboard.rKey.wasPressedThisFrame && LocalPlayer != null)
                 LocalPlayer.RPC_SetReady();
-            if(keyboard.qKey.wasPressedThisFrame && LocalPlayer != null)
+            if (keyboard.qKey.wasPressedThisFrame && LocalPlayer != null)
             {
                 LocalPlayer.RPC_SetStart();
             }
 
-            if(keyboard.xKey.wasPressedThisFrame && LocalPlayer != null)
+            if (keyboard.xKey.wasPressedThisFrame && LocalPlayer != null)
             {
                 if (!UIManager.Singleton.GameMenuOn)
                 {
@@ -138,8 +141,33 @@ public class InputManager : SimulationBehaviour, IBeforeUpdate, INetworkRunnerCa
 
         // Capture right mouse button click state
         _isRightMouseButtonDown = Input.GetMouseButton(1); // 1 indicates the right mouse button
-    }
 
+        //Mouse위치 월드좌표 캡처
+        if (Input.mousePosition != null && LocalPlayer && LocalPlayer.mainCam)
+        {
+            // Get the mouse position in screen coordinates
+            Vector3 mouseScreenPosition = Input.mousePosition;//각각의 플랫폼 유저 입력인식
+
+            // Create a ray from the camera to the mouse position
+            Ray ray = LocalPlayer.mainCam.mainCam.ScreenPointToRay(mouseScreenPosition);
+
+            // Raycast hit information
+            //RaycastHit mouseWorldhit_;
+
+            // Perform the raycast to check for a collision with objects in the scene
+            if (Physics.Raycast(ray, out mouseWorldhit_, 999f, HitMask))
+            {
+                // Log the point where the ray intersects a collider
+                Debug.Log("InputManager Mouse World Position (hit): " + mouseWorldhit_.point);
+            }
+            else
+            {
+                // If no object is hit, calculate world position on a flat plane
+                Vector3 worldPosition = ray.GetPoint(9999);
+                Debug.Log("InputManager Mouse World Position (no hit): " + worldPosition);
+            }
+        }
+    }
     void INetworkRunnerCallbacks.OnConnectedToServer(NetworkRunner runner) { }
 
     void INetworkRunnerCallbacks.OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }

@@ -718,6 +718,7 @@ MonoBehaviour:
   SpawnRadius: 50
   SpawnHeightMin: 0
   SpawnHeightMax: 20
+  _enemies: []
 --- !u!114 &27027692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1693,6 +1694,7 @@ MonoBehaviour:
   SpawnRadius: 50
   SpawnHeightMin: 0
   SpawnHeightMax: 20
+  _enemies: []
 --- !u!114 &78933794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1898,10 +1900,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefabs:
-  - RawGuidValue: d9261ecf9a8b9524eb70886266279ceb
-  - RawGuidValue: fb5c973b7e9d5e140bf3822d04fc9c6d
-  - RawGuidValue: 83f42dda96052d84189d38936eb19b4d
-  - RawGuidValue: 37e2a34dcf152dd4eadaf28ae1b1a134
+  - RawGuidValue: 091e05df56044324aa97910129d76a86
+  - RawGuidValue: f4025eb1fa626e842b7536202c1f2f8b
+  - RawGuidValue: f4025eb1fa626e842b7536202c1f2f8b
+  - RawGuidValue: f0a448801df1f654fa15791a7568601d
   spawnpoint: {fileID: 329352250}
   spawnpointPivot: {fileID: 1195123766}
   gamemanager: {fileID: 0}
@@ -2228,6 +2230,7 @@ MonoBehaviour:
   SpawnRadius: 50
   SpawnHeightMin: 0
   SpawnHeightMax: 20
+  _enemies: []
 --- !u!114 &115340678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6886,6 +6889,7 @@ MonoBehaviour:
   SpawnRadius: 50
   SpawnHeightMin: 0
   SpawnHeightMax: 20
+  _enemies: []
 --- !u!114 &146544016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39938,6 +39942,7 @@ MonoBehaviour:
   SpawnRadius: 50
   SpawnHeightMin: 0
   SpawnHeightMax: 20
+  _enemies: []
 --- !u!114 &1816990179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42031,10 +42036,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster: {fileID: 4755351578252130251, guid: 0c1d4e7c3fcba3a47acceddd39c032e9, type: 3}
-  Count: 1
+  Count: 6
   SpawnRadius: 50
   SpawnHeightMin: 0
   SpawnHeightMax: 20
+  _enemies: []
 --- !u!114 &1942924169
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,6 +60,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalPlayer: {fileID: 0}
+  menutoggle: 0
+  camerafollow: {fileID: 0}
+  HitMask:
+    serializedVersion: 2
+    m_Bits: 1728
 --- !u!114 &7589859401185796695
 MonoBehaviour:
   m_ObjectHideFlags: 0

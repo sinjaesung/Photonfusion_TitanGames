@@ -1000,6 +1000,7 @@ MonoBehaviour:
   inputs: {x: 0, y: 0}
   rotation: 0
   rotateSpeed: 2
+  HitboxRoot: {fileID: 0}
 --- !u!114 &6803493000416196718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,7 +1112,7 @@ MonoBehaviour:
   TotalWords: 3
   ApplyTiming: 2
   SyncSettings: 127
-  StateHashes: 00000000f3b09ce077934a0f2b1a167c794069552638cb43a21b1dac305212d913e2117f9ca371c52c52ce9b37b935014e73a6a7
+  StateHashes: 00000000f3b09ce077934a0f2b1a167c794069552638cb43a21b1dac305212d913e2117f9ca371c52c52ce9b37b935014e73a6a7d129f40ea997fc6f
   TriggerHashes: 0000000028a9810737b93501
 --- !u!135 &6341815614909895538
 SphereCollider:

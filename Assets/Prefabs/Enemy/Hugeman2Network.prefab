@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 7163602879268068245}
   m_Layer: 10
   m_Name: Hugeman2Network
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -813,7 +813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8645722213151796605
 Transform:
   m_ObjectHideFlags: 0
