@@ -11,24 +11,28 @@ AnimatorOverrideController:
   m_Clips:
   - m_OriginalClip: {fileID: -203655887218126122, guid: 19492e8c5003cee47ade92edea05d0fd,
       type: 3}
-    m_OverrideClip: {fileID: -2699832395079903634, guid: 376bc948f51aa124a93e3d0acb41423f,
+    m_OverrideClip: {fileID: 5488580092467791950, guid: e5573ae2340c8454da8a614968fdb9e0,
       type: 3}
   - m_OriginalClip: {fileID: -203655887218126122, guid: 173ed4f4e6a0df249ba2e0d13cfc64de,
       type: 3}
-    m_OverrideClip: {fileID: -2699832395079903634, guid: 376bc948f51aa124a93e3d0acb41423f,
+    m_OverrideClip: {fileID: 6466487450240609903, guid: e5573ae2340c8454da8a614968fdb9e0,
       type: 3}
   - m_OriginalClip: {fileID: -203655887218126122, guid: 4afd27b226e498441a65badfe91de88a,
       type: 3}
-    m_OverrideClip: {fileID: -2699832395079903634, guid: 376bc948f51aa124a93e3d0acb41423f,
+    m_OverrideClip: {fileID: -3100369314251171874, guid: e5573ae2340c8454da8a614968fdb9e0,
       type: 3}
   - m_OriginalClip: {fileID: -203655887218126122, guid: a1a6f043b7519a74eb19a7552b9ec933,
       type: 3}
-    m_OverrideClip: {fileID: -2699832395079903634, guid: 376bc948f51aa124a93e3d0acb41423f,
+    m_OverrideClip: {fileID: -4725331170296949000, guid: e5573ae2340c8454da8a614968fdb9e0,
       type: 3}
   - m_OriginalClip: {fileID: -203655887218126122, guid: a22706231c72fec498d202a40a6ffb5a,
       type: 3}
-    m_OverrideClip: {fileID: -2699832395079903634, guid: 376bc948f51aa124a93e3d0acb41423f,
+    m_OverrideClip: {fileID: -9121621101649706817, guid: e5573ae2340c8454da8a614968fdb9e0,
       type: 3}
   - m_OriginalClip: {fileID: 7400000, guid: 1173079168e1d2c44a40ed474499c39e, type: 2}
-    m_OverrideClip: {fileID: -2699832395079903634, guid: 376bc948f51aa124a93e3d0acb41423f,
+    m_OverrideClip: {fileID: -1933310744151558318, guid: e5573ae2340c8454da8a614968fdb9e0,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: e8ded753df18b624397c9b96343b750f,
+      type: 3}
+    m_OverrideClip: {fileID: -6076556136478701286, guid: e5573ae2340c8454da8a614968fdb9e0,
       type: 3}

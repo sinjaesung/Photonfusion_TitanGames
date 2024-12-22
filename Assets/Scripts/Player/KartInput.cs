@@ -193,10 +193,10 @@ public class KartInput : PlayerComponent, INetworkRunnerCallbacks
         {
             if (keyboard.rKey.wasPressedThisFrame && LocalPlayer != null)
                 LocalPlayer.RPC_SetReady();
-            if (keyboard.qKey.wasPressedThisFrame && LocalPlayer != null)
+           /* if (keyboard.qKey.wasPressedThisFrame && LocalPlayer != null)
             {
                 LocalPlayer.RPC_SetStart();
-            }
+            }*/
 
             Vector2 moveDirection = Vector2.zero;
 

@@ -38,7 +38,6 @@ public class UIManager : MonoBehaviour
 
     public Player LocalPlayer;
     public GameEndTest gameEndTest;
-    public StartVideoTest startmediaTest;
 
     public GameLogic gamelogic;
     public GameObject GameMenuObj;
@@ -72,7 +71,6 @@ public class UIManager : MonoBehaviour
         gamelogic = FindObjectOfType<GameLogic>();
 
         gameEndTest = FindObjectOfType<GameEndTest>();
-        startmediaTest = FindObjectOfType<StartVideoTest>();
 
         if (LocalPlayer == null)
             return;
@@ -118,13 +116,13 @@ public class UIManager : MonoBehaviour
                 // gameStateText.text = $"{winner.Name} Wins";
                 instructionText.text = "Press R when you're ready to play again!";
             }
-        }else if(newState == GameState.MediaPlaying)
+        }/*else if(newState == GameState.MediaPlaying)
         {
             startmediaTest.StartMediaVideo();
         }else if(newState == GameState.Playing)
         {
             startmediaTest.StopMediaVideo();
-        }
+        }*/
         else if (newState == GameState.Completed)
         {
             completeText.text = "";
