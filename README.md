@@ -26,9 +26,9 @@ PVP / PVE 멀티플레이 게임입니다.
 
 <img src="GameScreenShot1.png" width="500"/>
 <img src="GameScreenShot2.png" width="500"/>
-<img src="GameScreenShot3.png" width="900"/>
-<img src="GameScreenShot4.png" width="900"/>
-<img src="GameScreenShot5.png" width="900"/>
+<img src="GameScreenShot3.PNG" width="900"/>
+<img src="GameScreenShot4.PNG" width="900"/>
+<img src="GameScreenShot5.PNG" width="900"/>
 
 ## Gameplay Video
 https://www.youtube.com/watch?v=5hNtjZFoYkU&list=PLnPlc_DvhwlTIvDDBttrIJ_uuTx07CLrz&index=7
