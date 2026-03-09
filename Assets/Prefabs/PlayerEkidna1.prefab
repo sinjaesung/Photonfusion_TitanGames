@@ -62777,7 +62777,6 @@ MonoBehaviour:
   maxGlideTime: 2
   <AbilityRange>k__BackingField: 25
   IsReady: 0
-  IsStartRequest: 0
   IsArrive: 0
   _Name: 
   _GlideCharge: 0
